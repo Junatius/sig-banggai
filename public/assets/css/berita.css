@@ -1,0 +1,136 @@
+/* Navbar dengan warna aesthetic red */
+.custom-navbar {
+    background-color: #e26d5c !important; /* Aesthetic coral red */
+}
+
+/* Hover lembut dan elegan */
+.navbar .nav-link {
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #ffffff !important;
+}
+
+.navbar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+}
+
+/* Navbar brand juga putih agar serasi */
+.navbar .navbar-brand {
+    color: #ffffff !important;
+}
+
+/* CSS untuk header */
+.hero-header {
+  background-image: url('assets/img/berita-header.jpg'); /* Ganti dengan gambar berita terbaru */
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 100px 0;
+  position: relative;
+}
+
+.hero-content {
+  z-index: 2;
+  position: relative;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Tombol sesuai warna navbar */
+.btn-navbar {
+  font-size: 1.1rem;
+  padding: 12px 25px;
+  border-radius: 50px;
+  background-color: #e26d5c;
+  color: #ffffff;
+  border: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-navbar:hover {
+  background-color: #cc5c4d; /* sedikit lebih gelap saat hover */
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(226, 109, 92, 0.4);
+}
+
+.btn-navbar:focus {
+  box-shadow: 0 0 10px rgba(226, 109, 92, 0.5);
+}
+
+/* Tambahkan efek pada gambar latar belakang */
+.hero-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* Menambahkan layer gelap untuk teks lebih terlihat */
+  z-index: 1;
+}
+
+/* Gaya kartu berita */
+.card-berita {
+  transition: transform 0.3s ease;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.card-berita:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-berita img {
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Footer */
+.custom-footer {
+    background-color: #e26d5c;
+    color: #fff;
+    font-size: 0.95rem;
+  }
+  
+  .custom-footer a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .custom-footer a:hover {
+    color: #fdd9d2;
+  }
+  
+  .custom-footer h5 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .social-icons a {
+    display: inline-block;
+    margin-right: 12px;
+    font-size: 1.3rem;
+    color: #fff;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  .social-icons a:hover {
+    color: #ffd9d2;
+    transform: scale(1.2);
+  }

@@ -1,0 +1,318 @@
+Navbar dengan warna aesthetic red .custom-navbar {
+    background-color: #e26d5c !important; /* Aesthetic coral red */
+}
+
+/* Hover lembut dan elegan */
+.navbar .nav-link {
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #ffffff !important;
+}
+
+.navbar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+}
+
+/* Navbar brand juga putih agar serasi */
+.navbar .navbar-brand {
+    color: #ffffff !important;
+}
+
+/* Gaya untuk dropdown */
+.navbar .dropdown-menu {
+    border-radius: 8px; /* Membuat sudut dropdown lebih melengkung */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan lembut */
+}
+
+/* Efek saat mengarahkan kursor ke item dropdown */
+.navbar .dropdown-item:hover {
+    background-color: #e26d5c; /* Warna saat hover */
+    color: #fff; /* Teks putih */
+}
+
+/* Mode gelap */
+body.dark-mode {
+    background-color: #121212;
+    color: #f0f0f0;
+}
+
+body.dark-mode .custom-navbar {
+    background-color: #1f1f1f !important;
+}
+
+body.dark-mode .nav-link,
+body.dark-mode .navbar-brand {
+    color: #ffffff !important;
+}
+
+/* Hero Header dengan gambar latar belakang */
+.hero-header {
+    background-image: url("../header.png"); /* Ganti dengan path gambar Anda */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 80vh;
+    position: relative;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4); /* Layer gelap agar teks terlihat */
+}
+
+.hero-header .container {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.hero-header p {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .hero-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-header p {
+        font-size: 1rem;
+    }
+}
+
+/* About Section */
+.card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #e26d5c;
+    transition: transform 0.3s ease;
+}
+
+.card-body {
+    background-color: #f8f9fa;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #555;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.row-cols-md-2 .col {
+    margin-bottom: 20px;
+}
+
+/* Dark Mode untuk Card */
+body.dark-mode .card {
+    background-color: #2c2c2c; /* Latar belakang card dalam mode gelap */
+    border: 1px solid #444; /* Border yang lebih gelap */
+}
+
+body.dark-mode .card-body {
+    background-color: #333; /* Latar belakang dalam card */
+}
+
+body.dark-mode .card-title {
+    color: #ffffff; /* Warna judul menjadi putih di mode gelap */
+}
+
+body.dark-mode .card-text {
+    color: #dcdcdc; /* Warna teks menjadi lebih terang di mode gelap */
+}
+
+body.dark-mode .card-img-top {
+    filter: brightness(
+        0.6
+    ); /* Mengurangi kecerahan gambar agar lebih cocok di mode gelap */
+}
+
+/* Efek Hover pada Card */
+.card {
+    border: none;
+    border-radius: 15px; /* Memberikan sudut yang lebih membulat */
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Shadow default untuk card */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transisi halus untuk transformasi dan shadow */
+}
+
+.card:hover {
+    transform: translateY(-10px); /* Menggeser card sedikit ke atas */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan lebih tajam ketika card dihover */
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #e26d5c;
+    transition: transform 0.3s ease; /* Transisi halus untuk gambar */
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05); /* Memperbesar gambar sedikit saat hover */
+}
+
+.card-body {
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease; /* Transisi halus untuk perubahan latar belakang */
+}
+
+.card-body:hover {
+    background-color: #e8e8e8; /* Mengubah latar belakang card-body saat hover */
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Menambahkan animasi pada row jika card dihover */
+.row-cols-md-2 .col {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .hero-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-header p {
+        font-size: 1rem;
+    }
+}
+
+/* Kecamatan */
+.kecamatan-card {
+    background-color: #fff;
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.kecamatan-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    background-color: #ffeae5; /* Warna coral red soft */
+}
+
+.kecamatan-card .card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #e26d5c;
+}
+
+.kecamatan-card .card-text {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.kecamatan-card .text-muted {
+    font-size: 0.9rem;
+}
+
+/* Mode gelap */
+body.dark-mode .kecamatan-card {
+    background-color: #2c2c2c;
+    color: #f0f0f0;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .kecamatan-card:hover {
+    background-color: #3a3a3a;
+}
+
+body.dark-mode .kecamatan-card .card-text {
+    color: #dcdcdc;
+}
+
+body.dark-mode .kecamatan-card .text-muted {
+    color: #aaa;
+}
+
+/* Footer */
+.custom-footer {
+    background-color: #e26d5c;
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.custom-footer a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.custom-footer a:hover {
+    color: #fdd9d2;
+}
+
+.custom-footer h5 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.social-icons a {
+    display: inline-block;
+    margin-right: 12px;
+    font-size: 1.3rem;
+    color: #fff;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #ffd9d2;
+    transform: scale(1.2);
+}
+
+/* Dark Mode */
+body.dark-mode .custom-footer {
+    background-color: #1f1f1f;
+    color: #ccc;
+}
+
+body.dark-mode .custom-footer a {
+    color: #ccc;
+}
+
+body.dark-mode .custom-footer a:hover {
+    color: #ffffff;
+}
