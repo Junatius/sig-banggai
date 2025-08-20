@@ -1,21 +1,27 @@
-@extends('layouts.dashboard')
+@extends('partials.dashboard')
 
 @section('content')
 <div class="container">
-    <a href="{{ route('dashboard.news.index') }}" class="btn btn-secondary mb-3">← Kembali</a>
+    <a href="{{ route('dashboard.news.index') }}" 
+       class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded mb-3 inline-block">
+        ← Kembali
+    </a>
 
-    <div class="card">
+    <div class="card bg-white shadow-md rounded-lg overflow-hidden">
         @if ($news->image)
-            <img src="{{ asset('storage/' . $news->image) }}" class="card-img-top" alt="Foto Berita">
+            <img src="{{ asset('storage/' . $news->image) }}" 
+                 class="w-full h-64 object-cover" alt="Foto Berita">
         @endif
-        <div class="card-body">
-            <h3 class="card-title">{{ $news->title }}</h3>
-            <p class="text-muted">
-                Oleh {{ $news->user->name ?? 'Tidak diketahui' }}  
-                @if ($news->attraction) | Tempat Wisata: {{ $news->attraction->name }} @endif  
-                | {{ $news->created_at->format('d M Y') }}
+        <div class="p-6">
+            <h3 class="text-secondary-emphasis text-2xl font-bold mb-2">{{ $news->title }}</h3>
+            <p class="text-sm text-gray-600 mb-4">
+                Oleh <span class="font-medium text-gray-700">{{ $news->user->username ?? 'Tidak diketahui' }}</span>
+                @if ($news->user && $news->user->attraction)
+                    | Tempat Wisata: <span class="text-indigo-600 font-semibold">{{ $news->user->attraction->name }}</span>
+                @endif
+                | <span class="italic">{{ $news->created_at->translatedFormat('l, d F Y') }}</span>
             </p>
-            <p class="card-text">{!! nl2br(e($news->description)) !!}</p>
+            <p class="text-gray-700 leading-relaxed">{!! nl2br(e($news->desc)) !!}</p>
         </div>
     </div>
 </div>

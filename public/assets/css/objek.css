@@ -3,20 +3,6 @@
     background-color: #e26d5c !important;
 }
 
-.navbar .nav-link {
-    transition: background-color 0.3s ease, color 0.3s ease;
-    color: #ffffff !important;
-}
-
-.navbar .nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-radius: 5px;
-}
-
-.navbar .navbar-brand {
-    color: #ffffff !important;
-}
-
 /* Dark mode styling */
 body.dark-mode {
     background-color: #121212;

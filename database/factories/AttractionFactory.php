@@ -27,7 +27,7 @@ class AttractionFactory extends Factory
             'has_facility' => $this->faker->boolean(70),
             'type' => $this->faker->randomElement($types),
             'legality' => 'Surat Izin No. ' . rand(1000, 9999) . '/SI',
-            'contact' => '08' . rand(1000000000, 9999999999),
+            'price' => $this->faker->numberBetween(10000, 50000),
         ];
     }
 }

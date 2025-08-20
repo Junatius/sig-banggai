@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Attraction;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -56,5 +58,177 @@ class EventController extends Controller
         $attractions = Attraction::orderBy('name')->get();
 
         return view('frontend.events', compact('events', 'attractions'));
+    }
+
+    /**
+     * Menampilkan daftar event.
+     */
+    public function index_dashboard(Request $request)
+    {
+        $user = Auth::user();
+
+        $query = Event::with(['user', 'user.attraction']);
+
+        // Filtering berdasarkan role
+        if ($user->role === 'pengelola') {
+            $query->where(function ($q) use ($user) {
+                $q->where('users_id', $user->id)
+                  ->orWhereHas('user', function ($q2) use ($user) {
+                      $q2->where('attractions_id', $user->attractions_id);
+                  });
+            });
+        }
+
+        // Filter search nama event
+        if ($request->filled('search')) {
+            $query->where('name', 'ILIKE', "%$request->search%");
+        }
+
+        // Filter tempat wisata (hanya untuk admin)
+        if ($user->role === 'dinas_pariwisata' && $request->filled('attractions_id')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('attractions_id', $request->attractions_id);
+            });
+        }
+
+        // Filter tanggal mulai
+        if ($request->filled('start_date')) {
+            $query->whereDate('start_date', '>=', $request->start_date);
+        }
+
+        // Filter tanggal akhir
+        if ($request->filled('end_date')) {
+            $query->whereDate('end_date', '<=', $request->end_date);
+        }
+
+        $events = $query->latest()->paginate(10);
+        $attractions = Attraction::all();
+
+        return view('admin.kegiatan.index', compact('events', 'attractions'));
+    }
+
+    /**
+     * Form tambah event.
+     */
+    public function create()
+    {
+        $user = Auth::user();
+        return view('admin.kegiatan.create', compact('user'));
+    }
+
+    /**
+     * Simpan event baru.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'        => 'required|string|max:255',
+            'photo_url'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'start_date'  => 'required|date',
+            'end_date'    => 'required|date|after_or_equal:start_date',
+            'desc'        => 'required|string',
+            'link'        => 'nullable|url',
+            'manager'     => 'required|string',
+            'contact'     => 'required|string',
+        ]);
+
+        $photoPath = null;
+        if ($request->hasFile('photo_url')) {
+            $photoPath = $request->file('photo_url')->store('events', 'public');
+        }
+
+        Event::create([
+            'users_id'   => Auth::id(),
+            'name'       => $request->name,
+            'photo_url'  => $photoPath,
+            'start_date' => $request->start_date,
+            'end_date'   => $request->end_date,
+            'desc'       => $request->desc,
+            'link'       => $request->link,
+            'manager'    => $request->manager,
+            'contact'    => $request->contact,
+        ]);
+
+        return redirect()->route('dashboard.events.index')->with('success', 'Kegiatan berhasil ditambahkan.');
+    }
+
+    /**
+     * Detail event.
+     */
+    public function show(Event $event)
+    {
+        return view('admin.kegiatan.show', compact('event'));
+    }
+
+    /**
+     * Form edit event.
+     */
+    public function edit(Event $event)
+    {
+        $user = Auth::user();
+
+        // Cek akses edit
+        if ($user->role !== 'dinas_pariwisata' && $event->users_id !== $user->id) {
+            abort(403, 'Anda tidak memiliki akses untuk mengedit event ini.');
+        }
+
+        return view('admin.kegiatan.edit', compact('event', 'user'));
+    }
+
+    /**
+     * Update event.
+     */
+    public function update(Request $request, Event $event)
+    {
+        $request->validate([
+            'name'        => 'required|string|max:255',
+            'photo_url'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'start_date'  => 'required|date',
+            'end_date'    => 'required|date|after_or_equal:start_date',
+            'desc'        => 'required|string',
+            'link'        => 'nullable|url',
+            'manager'     => 'required|string',
+            'contact'     => 'required|string',
+        ]);
+
+        if ($request->hasFile('photo_url')) {
+            if ($event->photo_url) {
+                Storage::disk('public')->delete($event->photo_url);
+            }
+            $event->photo_url = $request->file('photo_url')->store('events', 'public');
+        }
+
+        $event->update([
+            'name'       => $request->name,
+            'start_date' => $request->start_date,
+            'end_date'   => $request->end_date,
+            'desc'       => $request->desc,
+            'link'       => $request->link,
+            'manager'    => $request->manager,
+            'contact'    => $request->contact,
+        ]);
+
+        return redirect()->route('dashboard.events.index')->with('success', 'Kegiatan berhasil diperbarui.');
+    }
+
+    /**
+     * Hapus event.
+     */
+    public function destroy(Event $event)
+    {
+        $user = Auth::user();
+
+        // Hanya admin dan pemilik event yang boleh hapus
+        if ($user->role !== 'dinas_pariwisata' && $event->users_id !== $user->id) {
+            abort(403, 'Anda tidak memiliki akses untuk menghapus event ini.');
+        }
+
+        if ($event->photo_url) {
+            Storage::disk('public')->delete($event->photo_url);
+        }
+
+        $event->delete();
+
+        return redirect()->route('dashboard.events.index')->with('success', 'Kegiatan berhasil dihapus.');
     }
 }

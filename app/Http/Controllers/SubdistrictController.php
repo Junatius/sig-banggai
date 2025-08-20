@@ -15,7 +15,7 @@ class SubdistrictController extends Controller
                 $query->where('name', 'ILIKE', "%$search%");
             })
             ->orderBy('name')
-            ->paginate(10);
+            ->paginate(20);
 
         return view('admin.kecamatan.index', compact('subdistricts', 'search'));
     }

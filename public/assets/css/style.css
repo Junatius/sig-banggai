@@ -1,34 +1,3 @@
-Navbar dengan warna aesthetic red .custom-navbar {
-    background-color: #e26d5c !important; /* Aesthetic coral red */
-}
-
-/* Hover lembut dan elegan */
-.navbar .nav-link {
-    transition: background-color 0.3s ease, color 0.3s ease;
-    color: #ffffff !important;
-}
-
-.navbar .nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-radius: 5px;
-}
-
-/* Navbar brand juga putih agar serasi */
-.navbar .navbar-brand {
-    color: #ffffff !important;
-}
-
-/* Gaya untuk dropdown */
-.navbar .dropdown-menu {
-    border-radius: 8px; /* Membuat sudut dropdown lebih melengkung */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan lembut */
-}
-
-/* Efek saat mengarahkan kursor ke item dropdown */
-.navbar .dropdown-item:hover {
-    background-color: #e26d5c; /* Warna saat hover */
-    color: #fff; /* Teks putih */
-}
 
 /* Mode gelap */
 body.dark-mode {

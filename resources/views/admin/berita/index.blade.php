@@ -3,6 +3,35 @@
 @section('content')
 <div class="container py-4">
 
+    {{-- Notifikasi --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    @if(session('warning'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle"></i> {{ session('warning') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    @if(session('info'))
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <i class="bi bi-info-circle"></i> {{ session('info') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
     {{-- Header --}}
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="fw-bold">Manajemen Berita</h4>
@@ -82,7 +111,8 @@
                         <th>Pembuat</th>
                         <th>Role</th>
                         <th>Tempat Wisata</th>
-                        <th>Tanggal</th>
+                        <th>Tanggal Dibuat</th>
+                        <th>Terakhir Diubah</th>
                         <th width="140">Aksi</th>
                     </tr>
                 </thead>
@@ -100,7 +130,14 @@
                             <td>{{ $item->user->username ?? '-' }}</td>
                             <td>{{ $item->user->role ?? '-' }}</td>
                             <td>{{ $item->user->attraction->name ?? '-' }}</td>
-                            <td>{{ $item->created_at->format('d/m/Y') }}</td>
+                            <td>
+                                {{ $item->created_at->translatedFormat('l, d F Y') }} <br>
+                                {{ $item->created_at->format('H:i') }}
+                            </td>
+                            <td>
+                                {{ $item->updated_at->translatedFormat('l, d F Y') }} <br>
+                                {{ $item->updated_at->format('H:i') }}
+                            </td>
                             <td>
                                 <a href="{{ route('dashboard.news.show', $item->id) }}" class="btn btn-info btn-sm">
                                     <i class="bi bi-eye"></i>
@@ -128,11 +165,11 @@
                                     <form method="POST" action="{{ route('dashboard.news.destroy', $item->id) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <div class="modal-header">
+                                        <div class="modal-header bg-gray-500">
                                             <h5 class="modal-title">Hapus Berita</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
-                                        <div class="modal-body">
+                                        <div class="modal-body text-black">
                                             Apakah Anda yakin ingin menghapus berita ini?
                                         </div>
                                         <div class="modal-footer">
@@ -165,6 +202,17 @@
     document.getElementById('roleFilter').addEventListener('change', function() {
         let attractionWrapper = document.getElementById('attractionFilterWrapper');
         attractionWrapper.style.display = this.value === 'pengelola' ? '' : 'none';
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                // bootstrap alert close
+                const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+                bsAlert.close();
+            }, 3000); // 3000ms = 3 detik
+        });
     });
 </script>
 @endsection

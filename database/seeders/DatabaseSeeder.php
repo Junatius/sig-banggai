@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Models\Galery;
 use App\Models\News;
 use App\Models\Subdistrict;
+use App\Models\Tourist;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
     {
         Subdistrict::factory(10)->create();
         Attraction::factory(50)->create();
+        Tourist::factory(100)->create();
         
         User::create([
             'username' => 'Admin Pariwisata',

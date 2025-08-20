@@ -81,7 +81,9 @@ class BeritaController extends Controller
             $query->whereDate('created_at', '<=', $request->to_date);
         }
 
-        $news = $query->orderBy('created_at', 'desc')->paginate(10);
+        $news = $query
+            ->orderByRaw('GREATEST(created_at, updated_at) DESC')
+            ->paginate(10);
 
         $attractions = Attraction::orderBy('name')->get();
 
@@ -90,14 +92,14 @@ class BeritaController extends Controller
 
     public function show($id)
     {
-        $news = News::with(['user', 'attraction'])->findOrFail($id);
+        $news = News::with(['user.attraction'])->findOrFail($id);
 
         // Akses pengelola hanya bisa lihat miliknya
         if (Auth::user()->role === 'pengelola' && $news->user_id !== Auth::id()) {
             abort(403);
         }
 
-        return view('dashboard.news.show', compact('news'));
+        return view('admin.berita.show', compact('news'));
     }
 
     public function create()
@@ -115,7 +117,6 @@ class BeritaController extends Controller
 
         $data = $request->only(['title', 'desc']);
         $data['users_id'] = Auth::id();
-        $data['status'] = 'pending';
 
         if ($request->hasFile('photo_url')) {
             $data['photo_url'] = $request->file('photo_url')->store('uploads/news', 'public');
@@ -123,7 +124,7 @@ class BeritaController extends Controller
 
         News::create($data);
 
-        return redirect()->route('dashboard.news.index')->with('success', 'Berita berhasil dibuat dan menunggu persetujuan.');
+        return redirect()->route('dashboard.news.index')->with('success', 'Berita berhasil dibuat');
     }
 
     public function edit($id)
@@ -150,12 +151,11 @@ class BeritaController extends Controller
         $request->validate([
             'title'     => 'required|string|max:50',
             'desc'      => 'required|string',
-            'photo_url' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+            'photo_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         $news->title = $request->title;
         $news->desc = $request->desc;
-        $news->status = 'pending'; // reset status ke pending saat diupdate
 
         if ($request->hasFile('photo_url')) {
             $news->photo_url = $request->file('photo_url')->store('uploads/news', 'public');
@@ -163,7 +163,25 @@ class BeritaController extends Controller
 
         $news->save();
 
-        return redirect()->route('dashboard.news.index')->with('success', 'Berita berhasil diupdate dan menunggu persetujuan.');
+        return redirect()->route('dashboard.news.index')->with('success', 'Berita berhasil diupdate');
     }
 
+    public function destroy($id)
+    {
+        $news = News::findOrFail($id);
+
+        // Cek hak akses: hanya admin dinas pariwisata atau pembuat berita
+        if (Auth::user()->role !== 'dinas_pariwisata' && Auth::id() !== $news->users_id) {
+            abort(403, 'Anda tidak memiliki izin untuk menghapus berita ini.');
+        }
+
+        // Hapus file foto dari storage kalau ada
+        if ($news->photo_url && Storage::disk('public')->exists($news->photo_url)) {
+            Storage::disk('public')->delete($news->photo_url);
+        }
+
+        $news->delete();
+
+        return redirect()->route('dashboard.news.index')->with('success', 'Berita berhasil dihapus');
+    }
 }

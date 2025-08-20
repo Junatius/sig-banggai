@@ -21,7 +21,7 @@ return new class extends Migration
             // $table->enum('type', ['your', 'enum', 'values', 'here']); // Replace with actual types
             $table->string('type');
             $table->string('legality');
-            $table->string('contact');
+            $table->integer('price');
             $table->timestamps();
         });
     }

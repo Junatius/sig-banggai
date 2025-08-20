@@ -3,7 +3,7 @@
 @section('content')
 <div class="container py-4">
     <div class="card custom-card">
-        <div class="card-header bg-gradient-primary text-white d-flex justify-content-between align-items-center">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Manajemen Kecamatan</h5>
             <button class="btn btn-success btn-sm rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#addModal">
                 <i class="bi bi-plus-lg"></i> Tambah Kecamatan
@@ -70,7 +70,7 @@
         <form method="POST" action="{{ route('dashboard.subdistricts.store') }}">
             @csrf
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-gray-500">
                     <h5 class="modal-title" id="addModalLabel">Tambah Kecamatan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -95,7 +95,7 @@
                 @csrf
                 @method('PUT')
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-gray-500">
                         <h5 class="modal-title" id="editModalLabel{{ $subdistrict->id }}">Edit Kecamatan</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -118,11 +118,11 @@
                 @csrf
                 @method('DELETE')
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-gray-500">
                         <h5 class="modal-title" id="deleteModalLabel{{ $subdistrict->id }}">Hapus Kecamatan</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body text-black">
                         Apakah Anda yakin ingin menghapus kecamatan <strong>{{ $subdistrict->name }}</strong>?
                     </div>
                     <div class="modal-footer">

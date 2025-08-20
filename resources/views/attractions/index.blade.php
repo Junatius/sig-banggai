@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/css/objek.css') }}" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -91,7 +93,7 @@
                 </p>
                 <p class="card-text"><small class="text-muted">Jenis Pengelola: {{ $attraction->type }}</small></p>
                 <p class="card-text"><small class="text-muted">Legalitas: {{ $attraction->legality }}</small></p>
-                <p class="card-text"><small class="text-muted">Kontak: {{ $attraction->contact }}</small></p>
+                <p class="card-text"><small class="text-muted">Harga Tiket Masuk: Rp. {{ number_format($attraction->price, 0, ',', '.') }}</small></p>
                 <p class="card-text">
                   <span class="badge bg-{{ $attraction->has_facility ? 'success' : 'secondary' }}">
                     {{ $attraction->has_facility ? 'Ada Fasilitas' : 'Belum Ada Fasilitas' }}
@@ -113,7 +115,5 @@
       </div>
     </div>
   </section>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

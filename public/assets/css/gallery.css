@@ -4,25 +4,6 @@ body {
   background-color: #f8f9fa;
 }
 
-/* Navbar dengan warna aesthetic red */
-.custom-navbar {
-  background-color: #e26d5c !important;
-}
-
-.navbar .nav-link {
-  transition: background-color 0.3s ease, color 0.3s ease;
-  color: #ffffff !important;
-}
-
-.navbar .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-  border-radius: 5px;
-}
-
-.navbar .navbar-brand {
-  color: #ffffff !important;
-}
-
 /* Header dengan gradient coral elegan */
 .section-header {
   background: linear-gradient(135deg, #f4b6a8, #e26d5c);

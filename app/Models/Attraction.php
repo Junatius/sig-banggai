@@ -15,7 +15,7 @@ class Attraction extends Model
 
     protected $fillable = [
         'name', 'photo_profile', 'desc', 'subdistrict',
-        'has_facility', 'type', 'legality', 'contact'
+        'has_facility', 'type', 'legality', 'price'
     ];
 
     public function subdistrict()

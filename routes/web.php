@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubdistrictController;
+use App\Http\Controllers\TouristController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WisataController;
@@ -102,6 +103,39 @@ Route::middleware(['auth', 'role:dinas_pariwisata'])
             ->group(function () {
                 Route::post('/{id}/approve', [BeritaController::class, 'approve'])->name('approve');
                 Route::post('/{id}/reject', [BeritaController::class, 'reject'])->name('reject');
+            });
+
+        Route::prefix('objek-wisata')
+            ->name('attractions.')
+            ->group(function () {
+                Route::get('/', [AttractionController::class, 'index_dashboard'])->name('index'); 
+                Route::get('/create', [AttractionController::class, 'create'])->name('create');  
+                Route::post('/', [AttractionController::class, 'store'])->name('store');  
+                Route::get('/{id}', [AttractionController::class, 'show'])->name('show');  
+                Route::get('/{id}/edit', [AttractionController::class, 'edit'])->name('edit');  
+                Route::put('/{id}', [AttractionController::class, 'update'])->name('update'); 
+                Route::delete('/{id}', [AttractionController::class, 'destroy'])->name('destroy'); 
+            });
+
+        Route::prefix('kegiatan')
+            ->name('events.')
+            ->group(function () {
+                Route::get('/', [EventController::class, 'index_dashboard'])->name('index');
+                Route::get('/create', [EventController::class, 'create'])->name('create');
+                Route::post('/', [EventController::class, 'store'])->name('store');
+                Route::get('/{event}', [EventController::class, 'show'])->name('show');
+                Route::get('/{event}/edit', [EventController::class, 'edit'])->name('edit');
+                Route::put('/{event}', [EventController::class, 'update'])->name('update');
+                Route::delete('/{event}', [EventController::class, 'destroy'])->name('destroy');
+            });
+
+        Route::prefix('wisatawan')
+            ->name('tourists.')
+            ->group(function () {
+                Route::get('/', [TouristController::class, 'index'])->name('index');
+                Route::post('/', [TouristController::class, 'store'])->name('store');
+                Route::put('/{id}', [TouristController::class, 'update'])->name('update');
+                Route::delete('/{id}', [TouristController::class, 'destroy'])->name('destroy');
             });
     });
 
