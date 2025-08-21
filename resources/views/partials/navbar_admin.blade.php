@@ -43,7 +43,7 @@
                 {{-- Informasi Pariwisata --}}
                 @if(Auth::user()->role === 'pengelola')
                     <li>
-                        <a href="#" 
+                        <a href="{{ route('dashboard.attractions.show') }}" 
                            class="flex items-center gap-1 px-3 py-2 rounded-lg text-white hover:bg-blue-700 transition">
                             <i class="bi bi-building"></i> Informasi Pariwisata
                         </a>

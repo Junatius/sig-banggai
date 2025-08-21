@@ -53,7 +53,12 @@
             </li>
             @if(in_array(Auth::user()->role, ['dinas_pariwisata', 'pengelola']))
               <li>
-                <a class="dropdown-item" href="{{ route('dashboard.users.index') }}">
+                @if (Auth::user()->role === 'dinas_pariwisata')
+                  <a class="dropdown-item" href="{{ route('dashboard.users.index') }}">  
+                @endif
+                @if (Auth::user()->role === 'pengelola')    
+                  <a class="dropdown-item" href="{{ route('dashboard.attractions.show') }}">  
+                @endif
                   <i class="bi bi-speedometer2"></i> Dashboard
                 </a>
               </li>

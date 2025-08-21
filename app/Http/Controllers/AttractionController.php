@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Attraction;
 use App\Models\Subdistrict;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AttractionController extends Controller
 {
@@ -199,5 +201,66 @@ class AttractionController extends Controller
         $attraction->delete();
 
         return redirect()->route('dashboard.attractions.index')->with('success', 'Tempat wisata berhasil dihapus!');
+    }
+
+    public function show_pengelola()
+    {
+        $user = Auth::user();
+
+        // Pastikan user punya relasi ke tempat wisata
+        if (!$user->attractions_id) {
+            abort(403, 'Anda tidak memiliki tempat wisata untuk dikelola.');
+        }
+
+        $attraction = Attraction::with('subdistrict')
+            ->findOrFail($user->attractions_id);
+
+        return view('admin.pariwisata.index', compact('attraction'));
+    }
+
+    public function edit_pengelola()
+    {
+        $user = Auth::user();
+
+        if (!$user->attractions_id) {
+            abort(403, 'Anda tidak memiliki tempat wisata untuk dikelola.');
+        }
+
+        $attraction = Attraction::findOrFail($user->attractions_id);
+
+        return view('admin.pariwisata.edit', compact('attraction'));
+    }
+
+    public function update_pengelola(Request $request)
+    {
+        $user = Auth::user();
+
+        if (!$user->attractions_id) {
+            abort(403, 'Anda tidak memiliki tempat wisata untuk dikelola.');
+        }
+
+        $attraction = Attraction::findOrFail($user->attractions_id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'desc' => 'nullable|string',
+            'legality' => 'nullable|string|max:255',
+            'price' => 'nullable|string|max:50',
+            'has_facility' => 'boolean',
+            'photo_profile' => 'nullable|image|max:2048',
+        ]);
+
+        // Upload foto jika ada
+        if ($request->hasFile('photo_profile')) {
+            if ($attraction->photo_profile) {
+                Storage::disk('public')->delete($attraction->photo_profile);
+            }
+            $validated['photo_profile'] = $request->file('photo_profile')->store('attractions', 'public');
+        }
+
+        $attraction->update($validated);
+
+        return redirect()->route('dashboard.attractions.show')
+            ->with('success', 'Informasi tempat wisata berhasil diperbarui.');
     }
 }

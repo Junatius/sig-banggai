@@ -95,7 +95,7 @@ class BeritaController extends Controller
         $news = News::with(['user.attraction'])->findOrFail($id);
 
         // Akses pengelola hanya bisa lihat miliknya
-        if (Auth::user()->role === 'pengelola' && $news->user_id !== Auth::id()) {
+        if (Auth::user()->role === 'pengelola' && $news->users_id !== Auth::id()) {
             abort(403);
         }
 

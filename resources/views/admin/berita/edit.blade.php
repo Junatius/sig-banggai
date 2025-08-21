@@ -42,7 +42,7 @@
                         <div class="mb-2">
                             <img src="{{ asset('storage/' . $news->photo_url) }}" 
                                  alt="Foto Berita" 
-                                 class="img-thumbnail" 
+                                 class="img-thumbnail mx-auto" 
                                  style="max-width: 200px;">
                         </div>
                     @endif

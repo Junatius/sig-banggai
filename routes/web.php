@@ -117,19 +117,8 @@ Route::middleware(['auth', 'role:dinas_pariwisata'])
                 Route::delete('/{id}', [AttractionController::class, 'destroy'])->name('destroy'); 
             });
 
-        Route::prefix('kegiatan')
-            ->name('events.')
-            ->group(function () {
-                Route::get('/', [EventController::class, 'index_dashboard'])->name('index');
-                Route::get('/create', [EventController::class, 'create'])->name('create');
-                Route::post('/', [EventController::class, 'store'])->name('store');
-                Route::get('/{event}', [EventController::class, 'show'])->name('show');
-                Route::get('/{event}/edit', [EventController::class, 'edit'])->name('edit');
-                Route::put('/{event}', [EventController::class, 'update'])->name('update');
-                Route::delete('/{event}', [EventController::class, 'destroy'])->name('destroy');
-            });
-
-        Route::prefix('wisatawan')
+            
+            Route::prefix('wisatawan')
             ->name('tourists.')
             ->group(function () {
                 Route::get('/', [TouristController::class, 'index'])->name('index');
@@ -153,6 +142,33 @@ Route::middleware(['auth', 'role:pengelola,dinas_pariwisata'])
                 Route::get('/{id}/edit', [BeritaController::class, 'edit'])->name('edit');
                 Route::put('/{id}', [BeritaController::class, 'update'])->name('update');
                 Route::delete('/{id}', [BeritaController::class, 'destroy'])->name('destroy');
+            });
+            
+            Route::prefix('kegiatan')
+            ->name('events.')
+            ->group(function () {
+                Route::get('/', [EventController::class, 'index_dashboard'])->name('index');
+                Route::get('/create', [EventController::class, 'create'])->name('create');
+                Route::post('/', [EventController::class, 'store'])->name('store');
+                Route::get('/{event}', [EventController::class, 'show'])->name('show');
+                Route::get('/{event}/edit', [EventController::class, 'edit'])->name('edit');
+                Route::put('/{event}', [EventController::class, 'update'])->name('update');
+                Route::delete('/{event}', [EventController::class, 'destroy'])->name('destroy');
+            });
+        });
+            
+            
+
+Route::middleware(['auth', 'role:pengelola'])
+    ->prefix('dashboard')
+    ->name('dashboard.')
+    ->group(function () {
+        Route::prefix('pariwisata')
+            ->name('attractions.')
+            ->group(function () {
+                Route::get('/', [AttractionController::class, 'show_pengelola'])->name('show');
+                Route::get('/edit', [AttractionController::class, 'edit_pengelola'])->name('edit');
+                Route::put('/update', [AttractionController::class, 'update_pengelola'])->name('update');
             });
     });
 

@@ -20,7 +20,7 @@
   @include('partials.navbar_admin')
   
   <!-- Header -->
-  <section class="py-5 text-center text-white">
+  <section class="py-5 text-center text-gray-800">
       @yield('content')
   </section>
 

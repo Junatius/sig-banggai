@@ -141,7 +141,7 @@
                             </a>
 
                             {{-- Edit: hanya muncul jika event dibuat oleh user dengan role dinas_pariwisata --}}
-                            @if($event->user && $event->user->role === 'dinas_pariwisata')
+                            @if($event->user->role === 'pengelola' || $event->user->role === 'dinas_pariwisata')
                                 <a href="{{ route('dashboard.events.edit', $event->id) }}"
                                 class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-full shadow-md transition"
                                 title="Edit">

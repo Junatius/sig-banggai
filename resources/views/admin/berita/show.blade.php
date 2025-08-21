@@ -8,9 +8,9 @@
     </a>
 
     <div class="card bg-white shadow-md rounded-lg overflow-hidden">
-        @if ($news->image)
-            <img src="{{ asset('storage/' . $news->image) }}" 
-                 class="w-full h-64 object-cover" alt="Foto Berita">
+        @if ($news->photo_url)
+            <img src="{{ asset('storage/' . $news->photo_url) }}" 
+                 class="w-full h-64 mx-auto object-cover" alt="Foto Berita">
         @endif
         <div class="p-6">
             <h3 class="text-secondary-emphasis text-2xl font-bold mb-2">{{ $news->title }}</h3>
