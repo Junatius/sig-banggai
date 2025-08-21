@@ -201,6 +201,18 @@
     const chartByCountry = @json($chartByCountry);
     const chartByPurpose = @json($chartByPurpose);
 
+    // Generate up to 100 distinct colors
+    function generateColors(count) {
+        const colors = [];
+        for (let i = 0; i < count; i++) {
+            const hue = (i * 137.508) % 360; // golden angle → sebaran merata
+            const saturation = 60 + (i % 3) * 15; // 60%, 75%, 90%
+            const lightness = 35 + (i % 4) * 15; // 35%, 50%, 65%, 80%
+            colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
+        }
+        return colors;
+    }
+
     // Chart per Negara
     new Chart(document.getElementById('chartByCountry'), {
         type: 'doughnut',
@@ -209,6 +221,7 @@
             datasets: [{
                 label: 'Jumlah Wisatawan',
                 data: chartByCountry.map(row => row.total),
+                backgroundColor: generateColors(100), // <= 100 warna
             }]
         },
         options: {
@@ -228,6 +241,7 @@
             datasets: [{
                 label: 'Jumlah Wisatawan',
                 data: chartByPurpose.map(row => row.total),
+                backgroundColor: generateColors(100), // <= 100 warna
             }]
         },
         options: {
@@ -239,7 +253,6 @@
         }
     });
 </script>
-
 <script>
     // Auto dismiss alert
     document.addEventListener('DOMContentLoaded', function() {

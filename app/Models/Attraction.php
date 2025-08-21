@@ -14,7 +14,7 @@ class Attraction extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'name', 'photo_profile', 'desc', 'subdistrict',
+        'name', 'photo_profile', 'desc', 'subdistrict_id',
         'has_facility', 'type', 'legality', 'price'
     ];
 
