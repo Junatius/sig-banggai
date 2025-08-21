@@ -57,7 +57,7 @@
                   <a class="dropdown-item" href="{{ route('dashboard.users.index') }}">  
                 @endif
                 @if (Auth::user()->role === 'pengelola')    
-                  <a class="dropdown-item" href="{{ route('dashboard.attractions.show') }}">  
+                  <a class="dropdown-item" href="{{ route('dashboard.attractions.show.pengelola') }}">  
                 @endif
                   <i class="bi bi-speedometer2"></i> Dashboard
                 </a>
