@@ -52,14 +52,16 @@
             </div>
 
             {{-- Filter Role --}}
-            <div class="col-md-3">
-                <label class="form-label">Role Pembuat</label>
-                <select name="filter_role" class="form-select" id="roleFilter">
-                    <option value="">Semua</option>
-                    <option value="dinas_pariwisata" {{ request('filter_role') == 'dinas_pariwisata' ? 'selected' : '' }}>Dinas Pariwisata</option>
-                    <option value="pengelola" {{ request('filter_role') == 'pengelola' ? 'selected' : '' }}>Pengelola</option>
-                </select>
-            </div>
+            @if (auth()->user()->role == 'dinas_pariwisata')
+                <div class="col-md-3">
+                    <label class="form-label">Role Pembuat</label>
+                    <select name="filter_role" class="form-select" id="roleFilter">
+                        <option value="">Semua</option>
+                        <option value="dinas_pariwisata" {{ request('filter_role') == 'dinas_pariwisata' ? 'selected' : '' }}>Dinas Pariwisata</option>
+                        <option value="pengelola" {{ request('filter_role') == 'pengelola' ? 'selected' : '' }}>Pengelola</option>
+                    </select>
+                </div>
+            @endif
 
             {{-- Filter Attraction --}}
             <div class="col-md-3" id="attractionFilterWrapper" 
