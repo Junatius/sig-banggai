@@ -166,9 +166,9 @@ Route::middleware(['auth', 'role:pengelola'])
         Route::prefix('pariwisata')
             ->name('attractions.')
             ->group(function () {
-                Route::get('/', [AttractionController::class, 'show_pengelola'])->name('show');
-                Route::get('/edit', [AttractionController::class, 'edit_pengelola'])->name('edit');
-                Route::put('/update', [AttractionController::class, 'update_pengelola'])->name('update');
+                Route::get('/', [AttractionController::class, 'show_pengelola'])->name('show.pengelola');
+                Route::get('/edit', [AttractionController::class, 'edit_pengelola'])->name('edit.pengelola');
+                Route::put('/update', [AttractionController::class, 'update_pengelola'])->name('update.pengelola');
             });
     });
 

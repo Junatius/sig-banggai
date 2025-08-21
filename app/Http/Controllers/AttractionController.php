@@ -260,7 +260,7 @@ class AttractionController extends Controller
 
         $attraction->update($validated);
 
-        return redirect()->route('dashboard.attractions.show')
+        return redirect()->route('dashboard.attractions.show_pengelola')
             ->with('success', 'Informasi tempat wisata berhasil diperbarui.');
     }
 }

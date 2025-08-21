@@ -5,7 +5,7 @@
     <div class="bg-white rounded-xl shadow p-6 border border-gray-200">
         <h1 class="text-2xl font-bold mb-6">Edit Informasi Tempat Wisata</h1>
 
-        <form method="POST" action="{{ route('dashboard.attractions.update') }}" enctype="multipart/form-data" class="space-y-5">
+        <form method="POST" action="{{ route('dashboard.attractions.update_pengelola') }}" enctype="multipart/form-data" class="space-y-5">
             @csrf
             @method('PUT')
 
@@ -53,7 +53,7 @@
             </div>
 
             <div class="flex justify-end gap-3">
-                <a href="{{ route('dashboard.attractions.show') }}"
+                <a href="{{ route('dashboard.attractions.show_pengelola') }}"
                    class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-lg">Batal</a>
                 <button type="submit"
                         class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg">Simpan</button>
