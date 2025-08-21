@@ -29,7 +29,7 @@
         </p>
 
         <div class="mt-6">
-            <a href="{{ route('dashboard.attractions.edit_pengelola') }}"
+            <a href="{{ route('dashboard.attractions.edit.pengelola') }}"
                class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition">
                 <i class="bi bi-pencil mr-2"></i> Edit Informasi
             </a>
