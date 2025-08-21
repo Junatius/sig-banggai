@@ -15,7 +15,7 @@ class Event extends Model
 
     protected $fillable = [
         'users_id', 'name', 'photo_url', 'start_date',
-        'end_sate', 'desc', 'link', 'manager', 'contact'
+        'end_date', 'desc', 'link', 'manager', 'contact'
     ];
 
     public function user()
