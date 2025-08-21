@@ -152,17 +152,11 @@
                             @endif
 
                             {{-- Hapus --}}
-                            <form action="{{ route('dashboard.events.destroy', $event->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus event ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                        class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full shadow-md transition"
-                                        title="Hapus">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4H9v3H4v2h16V7h-5z" />
-                                    </svg>
-                                </button>
-                            </form>
+                            <button class="btn text-white btn-danger rounded-pill shadow-transition"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal{{ $event->id }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </td>
                     </tr>
                 @empty
@@ -179,4 +173,29 @@
         {{ $events->links() }}
     </div>
 </div>
+
+@foreach ($events as $event)
+    <div class="modal fade" id="deleteModal{{ $event->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $event->id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="POST" action="{{ route('dashboard.events.destroy', $event->id) }}">
+                @csrf
+                @method('DELETE')
+                <div class="modal-content">
+                    <div class="modal-header bg-gray-500">
+                        <h5 class="modal-title" id="deleteModalLabel{{ $event->id }}">Hapus Kegiatan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-black">
+                        Apakah Anda yakin ingin menghapus kegiatan <strong>{{ $event->name }}</strong>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+@endforeach
+
 @endsection

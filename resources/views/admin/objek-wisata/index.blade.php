@@ -208,7 +208,8 @@
                             </a>
                             <button
                                 type="button"
-                                onclick="document.getElementById('deleteModal{{ $attraction->id }}').classList.remove('hidden')"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal{{ $attraction->id }}"
                                 class="px-2 py-1 rounded bg-red-600 hover:bg-red-700 text-white"
                                 title="Hapus"
                             >
@@ -217,36 +218,6 @@
                         </div>
                     </td>
                 </tr>
-
-                {{-- Modal Delete (vanilla, tanpa dependency) --}}
-                <div id="deleteModal{{ $attraction->id }}" class="hidden fixed inset-0 z-50">
-                    <div class="absolute inset-0 bg-black bg-opacity-50" onclick="document.getElementById('deleteModal{{ $attraction->id }}').classList.add('hidden')"></div>
-                    <div class="relative z-10 max-w-md mx-auto mt-40 bg-white text-gray-800 rounded-xl shadow-xl border border-gray-200">
-                        <div class="p-5">
-                            <h3 class="text-lg font-bold mb-2">Konfirmasi Hapus</h3>
-                            <p class="text-sm text-gray-600 mb-6">
-                                Apakah Anda yakin ingin menghapus tempat wisata
-                                <span class="font-semibold">{{ $attraction->name }}</span>?
-                            </p>
-                            <div class="flex justify-end gap-3">
-                                <button
-                                    type="button"
-                                    class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg"
-                                    onclick="document.getElementById('deleteModal{{ $attraction->id }}').classList.add('hidden')"
-                                >
-                                    Batal
-                                </button>
-                                <form method="POST" action="{{ route('dashboard.attractions.destroy', $attraction->id) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg">
-                                        Hapus
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 @empty
                 <tr>
                     <td colspan="10" class="text-center py-6 text-gray-600">Tidak ada tempat wisata ditemukan.</td>
@@ -263,4 +234,29 @@
         {{ $attractions->withQueryString()->links() }}
     </div>
 </div>
+
+@foreach ($attractions as $attraction)
+    <div class="modal fade" id="deleteModal{{ $attraction->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $attraction->id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="POST" action="{{ route('dashboard.attractions.destroy', $attraction->id) }}">
+                @csrf
+                @method('DELETE')
+                <div class="modal-content">
+                    <div class="modal-header bg-gray-500">
+                        <h5 class="modal-title" id="deleteModalLabel{{ $attraction->id }}">Hapus Tempat Wsiata</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-black">
+                        Apakah Anda yakin ingin menghapus Tempat Wisata <strong>{{ $attraction->name }}</strong>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+@endforeach
+
 @endsection
