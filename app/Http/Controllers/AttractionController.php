@@ -70,7 +70,7 @@ class AttractionController extends Controller
 
         // Filter search nama
         if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('name', 'ILIKE', '%' . $request->search . '%');
         }
 
         // Filter kecamatan
