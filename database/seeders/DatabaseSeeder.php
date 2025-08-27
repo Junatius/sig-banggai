@@ -48,6 +48,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'username' => 'Admin Pengelola',
             'email' => 'pengelola@gmail.com',
+            'attractions_id' => Attraction::inRandomOrder()->first()->id,
             'role' => 'pengelola',
             'photo_profile' => 'https://i.pravatar.cc/150?img=' . rand(1, 70),
             'email_verified_at' => now(),

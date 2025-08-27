@@ -8,60 +8,83 @@
         <div id="success-alert" class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    {{-- Chart: Total per Negara --}}
-    <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-primary text-white">
-            Statistik Wisatawan per Negara
+    {{-- Chart Section --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        {{-- Negara --}}
+        <div class="bg-white rounded-2xl shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">
+                Statistik Wisatawan per Negara
+            </h2>
+
+            {{-- chart + legend layout --}}
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                {{-- Canvas centered --}}
+                <div class="lg:col-span-3 flex items-center justify-center h-72">
+                    <canvas id="chartByCountry"></canvas>
+                </div>
+                {{-- External legend, scrollable --}}
+                <div class="lg:col-span-2">
+                    <div id="legend-country" class="max-h-72 overflow-auto pr-2"></div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <canvas id="chartByCountry"></canvas>
+
+        {{-- Tujuan --}}
+        <div class="bg-white rounded-2xl shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">
+                Statistik Wisatawan per Tujuan Kedatangan
+            </h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                <div class="lg:col-span-3 flex items-center justify-center h-72">
+                    <canvas id="chartByPurpose"></canvas>
+                </div>
+                <div class="lg:col-span-2">
+                    <div id="legend-purpose" class="max-h-72 overflow-auto pr-2"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    {{-- Chart: Total per Tujuan --}}
-    <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-success text-white">
-            Statistik Wisatawan per Tujuan Kedatangan
-        </div>
-        <div class="card-body">
-            <canvas id="chartByPurpose"></canvas>
-        </div>
+
+{{-- Filter & Search --}}
+<form method="GET" action="{{ route('dashboard.tourists.index') }}" 
+      class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <input type="text" name="search" placeholder="Cari nama..." 
+           value="{{ $search }}" 
+           class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+    <select name="nationality" 
+            class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        <option value="">Semua Negara</option>
+        @foreach($countries as $country)
+            <option value="{{ $country }}" {{ request('nationality') == $country ? 'selected' : '' }}>
+                {{ $country }}
+            </option>
+        @endforeach
+    </select>
+
+    <select name="visit_purpose" 
+            class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        <option value="">Semua Tujuan</option>
+        @foreach($purposes as $purpose)
+            <option value="{{ $purpose }}" {{ request('visit_purpose') == $purpose ? 'selected' : '' }}>
+                {{ $purpose }}
+            </option>
+        @endforeach
+    </select>
+
+    <div class="flex gap-2">
+        <button type="submit" 
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 flex-1">
+            Filter
+        </button>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#addModal"
+                class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 flex-1">
+            + Tambah
+        </button>
     </div>
-
-
-    {{-- Filter & Search --}}
-    <form method="GET" action="{{ route('dashboard.tourists.index') }}" class="row g-2 mb-3">
-        <div class="col-md-3">
-            <input type="text" name="search" class="form-control" placeholder="Cari nama..." value="{{ $search }}">
-        </div>
-        <div class="col-md-3">
-            <select name="nationality" class="form-select">
-                <option value="">Semua Negara</option>
-                @foreach($countries as $country)
-                    <option value="{{ $country }}" {{ request('nationality') == $country ? 'selected' : '' }}>
-                        {{ $country }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-3">
-            <select name="visit_purpose" class="form-select">
-                <option value="">Semua Tujuan</option>
-                @foreach($purposes as $purpose)
-                    <option value="{{ $purpose }}" {{ request('visit_purpose') == $purpose ? 'selected' : '' }}>
-                        {{ $purpose }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-3 d-flex gap-2">
-            <button type="submit" class="btn btn-primary flex-fill">Filter</button>
-            <button type="button" class="btn btn-success flex-fill" data-bs-toggle="modal" data-bs-target="#addModal">
-                <i class="bi bi-plus-lg"></i> Tambah
-            </button>
-        </div>
-    </form>
-
+</form>
     {{-- Table --}}
     <div class="card">
         <div class="card-header bg-secondary text-white">
@@ -197,6 +220,7 @@
 
 {{-- ChartJS --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const chartByCountry = @json($chartByCountry);
     const chartByPurpose = @json($chartByPurpose);
@@ -205,52 +229,117 @@
     function generateColors(count) {
         const colors = [];
         for (let i = 0; i < count; i++) {
-            const hue = (i * 137.508) % 360; // golden angle → sebaran merata
-            const saturation = 60 + (i % 3) * 15; // 60%, 75%, 90%
-            const lightness = 35 + (i % 4) * 15; // 35%, 50%, 65%, 80%
+            const hue = (i * 137.508) % 360;
+            const saturation = 65;
+            const lightness = 55 - (i % 3) * 10; // 55/45/35
             colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
         }
         return colors;
     }
 
-    // Chart per Negara
+    // Small, clean HTML legend plugin (separate from canvas)
+    const getOrCreateLegendList = (id) => {
+        const container = document.getElementById(id);
+        let ul = container.querySelector('ul');
+        if (!ul) {
+            ul = document.createElement('ul');
+            ul.className = 'space-y-1 text-sm text-gray-700';
+            container.appendChild(ul);
+        }
+        return ul;
+    };
+
+    const htmlLegendPlugin = {
+        id: 'htmlLegend',
+        afterUpdate(chart, args, options) {
+            const ul = getOrCreateLegendList(options.containerID);
+            // clear
+            while (ul.firstChild) ul.firstChild.remove();
+            // items from Chart.js' legend generator
+            const items = chart.options.plugins.legend.labels.generateLabels(chart);
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center gap-2 cursor-pointer';
+                li.onclick = () => chart.toggleDataVisibility(item.index) || chart.update();
+
+                const box = document.createElement('span');
+                box.className = 'inline-block w-3.5 h-3.5 rounded';
+                box.style.background = item.fillStyle;
+                box.style.border = '1px solid rgba(0,0,0,0.1)';
+
+                const text = document.createElement('span');
+                text.textContent = item.text;
+
+                li.appendChild(box);
+                li.appendChild(text);
+                ul.appendChild(li);
+            });
+        }
+    };
+
+    // helper for percent in tooltip
+    function tooltipLabelWithPercent(ctx) {
+        const dataset = ctx.dataset;
+        const total = dataset.data.reduce((a, b) => a + b, 0);
+        const value = ctx.parsed;
+        const pct = total ? ((value / total) * 100).toFixed(1) : 0;
+        return `${ctx.label}: ${value} (${pct}%)`;
+    }
+
+    // COUNTRY CHART
+    const countryLabels = chartByCountry.map(r => r.nationality);
+    const countryData   = chartByCountry.map(r => r.total);
     new Chart(document.getElementById('chartByCountry'), {
         type: 'doughnut',
         data: {
-            labels: chartByCountry.map(row => row.nationality),
+            labels: countryLabels,
             datasets: [{
-                label: 'Jumlah Wisatawan',
-                data: chartByCountry.map(row => row.total),
-                backgroundColor: generateColors(100), // <= 100 warna
+                data: countryData,
+                backgroundColor: generateColors(Math.max(countryLabels.length, 12)),
+                borderWidth: 0
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,   // allow flex height to center it nicely
+            cutout: '65%',
+            layout: { padding: 8 },
             plugins: {
-                title: { display: true, text: 'Total Wisatawan Berdasarkan Negara' },
-                legend: { position: 'bottom' }
+                title: { display: false }, // we already have a big card title
+                legend: { display: false }, // legend rendered externally
+                tooltip: { callbacks: { label: tooltipLabelWithPercent } },
+                htmlLegend: { containerID: 'legend-country' }
             }
-        }
+        },
+        plugins: [htmlLegendPlugin]
     });
 
-    // Chart per Tujuan
+    // PURPOSE CHART
+    const purposeLabels = chartByPurpose.map(r => r.visit_purpose);
+    const purposeData   = chartByPurpose.map(r => r.total);
     new Chart(document.getElementById('chartByPurpose'), {
         type: 'doughnut',
         data: {
-            labels: chartByPurpose.map(row => row.visit_purpose),
+            labels: purposeLabels,
             datasets: [{
-                label: 'Jumlah Wisatawan',
-                data: chartByPurpose.map(row => row.total),
-                backgroundColor: generateColors(100), // <= 100 warna
+                data: purposeData,
+                backgroundColor: generateColors(Math.max(purposeLabels.length, 6)),
+                borderWidth: 0
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
+            cutout: '65%',
+            layout: { padding: 8 },
             plugins: {
-                title: { display: true, text: 'Total Wisatawan Berdasarkan Tujuan Kedatangan' },
-                legend: { position: 'bottom' }
+                title: { display: false },
+                legend: { display: false }, // use external legend for consistent look
+                tooltip: { callbacks: { label: tooltipLabelWithPercent } },
+                htmlLegend: { containerID: 'legend-purpose' }
             }
-        }
+        },
+        plugins: [htmlLegendPlugin]
     });
 </script>
 <script>
