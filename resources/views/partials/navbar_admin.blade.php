@@ -24,7 +24,8 @@
                 @if(Auth::user()->role === 'dinas_pariwisata')
                     <li>
                         <a href="{{ route('dashboard.users.index') }}" 
-                           class="flex items-center gap-1 px-3 py-2 rounded-lg text-white hover:bg-blue-700 transition">
+                           class="flex items-center gap-1 px-3 py-2 rounded-lg transition
+                                  {{ request()->routeIs('dashboard.users.*') ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-700' }}">
                             <i class="bi bi-people"></i> User
                         </a>
                     </li>
@@ -34,7 +35,8 @@
                 @if(Auth::user()->role === 'dinas_pariwisata')
                     <li>
                         <a href="{{ route('dashboard.subdistricts.index') }}" 
-                           class="flex items-center gap-1 px-3 py-2 rounded-lg text-white hover:bg-blue-700 transition">
+                           class="flex items-center gap-1 px-3 py-2 rounded-lg transition
+                                  {{ request()->routeIs('dashboard.subdistricts.*') ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-700' }}">
                             <i class="bi bi-geo-alt"></i> Kecamatan
                         </a>
                     </li>
@@ -44,7 +46,8 @@
                 @if(Auth::user()->role === 'pengelola')
                     <li>
                         <a href="{{ route('dashboard.attractions.show.pengelola') }}" 
-                           class="flex items-center gap-1 px-3 py-2 rounded-lg text-white hover:bg-blue-700 transition">
+                           class="flex items-center gap-1 px-3 py-2 rounded-lg transition
+                                  {{ request()->routeIs('dashboard.attractions.show.pengelola') ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-700' }}">
                             <i class="bi bi-building"></i> Informasi Pariwisata
                         </a>
                     </li>
@@ -54,7 +57,8 @@
                 @if(Auth::user()->role === 'dinas_pariwisata')
                     <li>
                         <a href="{{ route('dashboard.galleries.index') }}" 
-                           class="flex items-center gap-1 px-3 py-2 rounded-lg text-white hover:bg-blue-700 transition">
+                           class="flex items-center gap-1 px-3 py-2 rounded-lg transition
+                                  {{ request()->routeIs('dashboard.galleries.*') ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-700' }}">
                             <i class="bi bi-images"></i> Galeri
                         </a>
                     </li>
@@ -64,7 +68,8 @@
                 @if(Auth::user()->role === 'dinas_pariwisata')
                     <li>
                         <a href="{{ route('dashboard.tourists.index') }}" 
-                           class="flex items-center gap-1 px-3 py-2 rounded-lg text-white hover:bg-blue-700 transition">
+                           class="flex items-center gap-1 px-3 py-2 rounded-lg transition
+                                  {{ request()->routeIs('dashboard.tourists.*') ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-700' }}">
                             <i class="bi bi-people-fill"></i> Wisatawan
                         </a>
                     </li>
@@ -74,7 +79,8 @@
                 @if(in_array(Auth::user()->role, ['dinas_pariwisata', 'pengelola']))
                     <li>
                         <a href="{{ route('dashboard.news.index') }}" 
-                           class="flex items-center gap-1 px-3 py-2 rounded-lg text-white hover:bg-blue-700 transition">
+                           class="flex items-center gap-1 px-3 py-2 rounded-lg transition
+                                  {{ request()->routeIs('dashboard.news.*') ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-700' }}">
                             <i class="bi bi-newspaper"></i> Berita
                         </a>
                     </li>
@@ -84,7 +90,8 @@
                 @if(Auth::user()->role === 'dinas_pariwisata')
                     <li>
                         <a href="{{ route('dashboard.attractions.index') }}" 
-                           class="flex items-center gap-1 px-3 py-2 rounded-lg text-white hover:bg-blue-700 transition">
+                           class="flex items-center gap-1 px-3 py-2 rounded-lg transition
+                                  {{ request()->routeIs('dashboard.attractions.*') ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-700' }}">
                             <i class="bi bi-map"></i> Tempat Wisata
                         </a>
                     </li>
@@ -94,7 +101,8 @@
                 @if(in_array(Auth::user()->role, ['dinas_pariwisata', 'pengelola']))
                     <li>
                         <a href="{{ route('dashboard.events.index') }}" 
-                           class="flex items-center gap-1 px-3 py-2 rounded-lg text-white hover:bg-blue-700 transition">
+                           class="flex items-center gap-1 px-3 py-2 rounded-lg transition
+                                  {{ request()->routeIs('dashboard.events.*') ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-700' }}">
                             <i class="bi bi-calendar-event"></i> Event
                         </a>
                     </li>
@@ -103,7 +111,8 @@
                 {{-- Beranda --}}
                 <li>
                     <a href="{{ url('/') }}" 
-                       class="flex items-center gap-1 px-3 py-2 rounded-lg text-white hover:bg-blue-700 transition">
+                       class="flex items-center gap-1 px-3 py-2 rounded-lg transition
+                              {{ request()->is('/') ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-700' }}">
                         <i class="bi bi-house-door"></i> Beranda
                     </a>
                 </li>

@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Storage;
 
 class AttractionController extends Controller
 {
+    public function maps()
+    {
+        $attractions = Attraction::with('subdistrict')->get();
+        return view('maps.index', compact('attractions'));
+    }
+
     public function index(Request $request)
     {
         // Get filters from request
@@ -112,6 +118,13 @@ class AttractionController extends Controller
         return view('admin.objek-wisata.show', compact('attraction'));
     }
 
+    public function show_user($id)
+    {
+        $attraction = Attraction::with('subdistrict')->findOrFail($id);
+
+        return view('attractions.show', compact('attraction'));
+    }
+
     /**
      * Form tambah tempat wisata
      */
@@ -135,6 +148,8 @@ class AttractionController extends Controller
             'type' => 'required|string',
             'legality' => 'required|string',
             'price' => 'nullable|numeric',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ]);
 
         if ($request->hasFile('photo_profile')) {
@@ -143,7 +158,8 @@ class AttractionController extends Controller
 
         Attraction::create($validated);
 
-        return redirect()->route('dashboard.attractions.index')->with('success', 'Tempat wisata berhasil ditambahkan!');
+        return redirect()->route('dashboard.attractions.index')
+            ->with('success', 'Tempat wisata berhasil ditambahkan!');
     }
 
     /**
@@ -172,10 +188,12 @@ class AttractionController extends Controller
             'type' => 'required|string',
             'legality' => 'required|string',
             'price' => 'nullable|numeric',
+            'latitude' => 'required|string',
+            'longitude' => 'required|string',
         ]);
 
         if ($request->hasFile('photo_profile')) {
-            // Hapus file lama jika ada
+            // Hapus file lama
             if ($attraction->photo_profile && file_exists(storage_path('app/public/' . $attraction->photo_profile))) {
                 unlink(storage_path('app/public/' . $attraction->photo_profile));
             }

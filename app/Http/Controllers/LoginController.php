@@ -29,10 +29,12 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard');
+            if ($user->role === 'dinas_pariwisata') {
+                return redirect()->route('dashboard.users.index');
+            } else if ($user->role === 'pengelola') {
+                return redirect()->route('dashboard.attractions.show.pengelola');
             } else {
-                return redirect()->route('user.dashboard');
+                return redirect()->route('home');
             }
         }
 

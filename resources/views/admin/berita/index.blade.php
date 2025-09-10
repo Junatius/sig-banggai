@@ -123,7 +123,7 @@
                         <tr>
                             <td>
                                 @if($item->photo_url)
-                                    <img src="{{ asset($item->photo_url) }}" alt="" class="rounded" style="height:50px;width:70px;object-fit:cover;">
+                                    <img src="{{ asset('storage/' . $item->photo_url) }}" alt="" class="rounded" style="height:50px;width:70px;object-fit:cover;">
                                 @else
                                     <span class="text-muted fst-italic">No Image</span>
                                 @endif

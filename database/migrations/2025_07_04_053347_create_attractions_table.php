@@ -16,12 +16,14 @@ return new class extends Migration
             $table->uuid('subdistrict_id')->constrained('subdistricts')->onDelete('cascade');
             $table->string('name');
             $table->string('photo_profile')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->text('desc');
             $table->boolean('has_facility')->default(false);
             // $table->enum('type', ['your', 'enum', 'values', 'here']); // Replace with actual types
             $table->string('type');
             $table->string('legality');
-            $table->integer('price');
+            $table->integer('price')->nullable();
             $table->timestamps();
         });
     }

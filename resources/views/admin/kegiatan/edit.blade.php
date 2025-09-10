@@ -24,7 +24,7 @@
             @if($event->photo_url)
                 <div class="mt-2">
                     <img src="{{ asset('storage/' . $event->photo_url) }}" alt="Foto Event"
-                        class="w-32 h-32 object-cover rounded-lg shadow-md">
+                        class="w-64 h-64 object-cover rounded-lg shadow-md mx-auto">
                 </div>
             @endif
         </div>

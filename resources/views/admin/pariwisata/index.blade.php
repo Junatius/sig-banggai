@@ -28,6 +28,12 @@
             @endif
         </p>
 
+        {{-- Google Maps --}}
+        <div class="mt-6">
+            <label class="block text-sm font-semibold text-gray-800 mb-2">Lokasi pada Peta:</label>
+            <div id="map" class="w-full h-72 rounded-lg border"></div>
+        </div>
+
         <div class="mt-6">
             <a href="{{ route('dashboard.attractions.edit.pengelola') }}"
                class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition">
@@ -37,3 +43,34 @@
     </div>
 </div>
 @endsection
+
+{{-- Google Maps --}}
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
+<script>
+    function initMap() {
+        const lat = parseFloat("{{ $attraction->latitude ?? '-1.8694' }}");
+        const lng = parseFloat("{{ $attraction->longitude ?? '123.5445' }}");
+
+        const map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: lat, lng: lng },
+            zoom: 14
+        });
+
+        const marker = new google.maps.Marker({
+            position: { lat: lat, lng: lng },
+            map: map,
+            title: "{{ $attraction->name }}"
+        });
+
+        const infoWindow = new google.maps.InfoWindow({
+            content: `<div>
+                        <h3 class="font-bold text-lg mb-1">{{ $attraction->name }}</h3>
+                        <p>{{ $attraction->desc }}</p>
+                      </div>`
+        });
+
+        marker.addListener("click", () => {
+            infoWindow.open(map, marker);
+        });
+    }
+</script>

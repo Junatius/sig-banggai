@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('users_id')->constrained('users');
             $table->string('name');
-            $table->string('photo_url');
+            $table->string('photo_url')->nullable();
             $table->timestamp('start_date');
             $table->timestamp('end_date');
             $table->text('desc');

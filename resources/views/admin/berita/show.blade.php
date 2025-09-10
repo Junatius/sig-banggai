@@ -7,10 +7,13 @@
         ← Kembali
     </a>
 
-    <div class="card bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="card bg-white shadow-md rounded-lg overflow-hidden py-4">
         @if ($news->photo_url)
-            <img src="{{ asset('storage/' . $news->photo_url) }}" 
-                 class="w-full h-64 mx-auto object-cover" alt="Foto Berita">
+            <div class="w-full h-96 bg-gray-100 flex items-center justify-center overflow-hidden">
+                <img src="{{ asset('storage/' . $news->photo_url) }}" 
+                    alt="Foto Berita" 
+                    class="max-h-full max-w-full object-contain rounded">
+            </div>
         @endif
         <div class="p-6">
             <h3 class="text-secondary-emphasis text-2xl font-bold mb-2">{{ $news->title }}</h3>

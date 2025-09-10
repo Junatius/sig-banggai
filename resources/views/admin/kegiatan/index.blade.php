@@ -110,7 +110,7 @@
 
                         {{-- Nama Tempat Wisata --}}
                         <td class="py-3 px-4 text-gray-700">
-                            {{ $event->user->attractions->name ?? '-' }}
+                            {{ $event->user->attraction->name ?? '-' }}
                         </td>
 
                         {{-- Penanggung Jawab --}}

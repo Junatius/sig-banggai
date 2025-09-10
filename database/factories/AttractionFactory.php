@@ -23,6 +23,8 @@ class AttractionFactory extends Factory
             'subdistrict_id' => Subdistrict::inRandomOrder()->first()->id ?? Subdistrict::factory(),
             'name' => 'Wisata ' . $this->faker->city(),
             'photo_profile' => $this->faker->imageUrl('640', '480', 'nature', true, 'Attraction'),
+            'latitude' => $this->faker->latitude(-3.5, 1.5),
+            'longitude' => $this->faker->longitude(119.0, 124.0),
             'desc' => $this->faker->paragraph(),
             'has_facility' => $this->faker->boolean(70),
             'type' => $this->faker->randomElement($types),

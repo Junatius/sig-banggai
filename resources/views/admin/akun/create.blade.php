@@ -39,14 +39,14 @@
 
                         {{-- Nama Wisata (khusus pengelola) --}}
                         <div class="mb-3" id="attractionField" style="display:none;">
-                            <label for="attraction_id" class="form-label fw-semibold">Nama Wisata</label>
-                            <select name="attraction_id" class="form-select">
+                            <label for="attractions_id" class="form-label fw-semibold">Nama Wisata</label>
+                            <select name="attractions_id" class="form-select">
                                 <option value="">Pilih Wisata</option>
                                 @foreach($attractions as $attr)
                                     <option value="{{ $attr->id }}">{{ $attr->name }}</option>
                                 @endforeach
                             </select>
-                            @error('attraction_id') 
+                            @error('attractions_id') 
                                 <div class="text-danger small">{{ $message }}</div> 
                             @enderror
                         </div>

@@ -24,20 +24,18 @@ use App\Models\User;
 // ===========================
 // FRONTEND ROUTES (Public)
 // ===========================
-Route::get('/', function () {
-    return view('frontend.index');
-})->name('home');
-
-Route::get('/maps', function () {
-    return view('frontend.maps');
-})->name('maps');
-
+Route::get('/', [SubdistrictController::class, 'homepage'])->name('home');
 
 Route::get('/objek-wisata', [AttractionController::class, 'index'])->name('objek-wisata.index');
+Route::get('/objek-wisata/{attraction}', [AttractionController::class, 'show_user'])
+    ->name('objek-wisata.show');
 Route::get('/berita', [BeritaController::class, 'index'])->name('news.index');
+Route::get('/berita/{id}', [BeritaController::class, 'show_user'])->name('news.show');
 
 Route::get('/gallery', [WisataController::class, 'index'])->name('galleries');
 Route::get('/kegiatan', [EventController::class, 'index'])->name('events.index');
+Route::get('/kegiatan/{event}', [EventController::class, 'show_user'])->name('events.show');
+Route::get('/maps', [AttractionController::class, 'maps'])->name('maps');
 // =========================== //
 // AUTH ROUTES (Admin & User)  //
 // =========================== //

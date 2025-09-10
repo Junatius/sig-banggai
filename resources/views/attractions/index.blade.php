@@ -82,7 +82,7 @@
         @forelse ($attractions as $attraction)
           <div class="col-md-4 mb-4">
             <div class="card h-100">
-              <img src="{{ $attraction->photo_profile ?? asset('assets/images/default.jpg') }}" class="card-img-top" alt="{{ $attraction->name }}">
+              <img src="{{'storage/' . $attraction->photo_profile ?? asset('assets/images/default.jpg') }}" class="card-img-top" alt="{{ $attraction->name }}">
               <div class="card-body">
                 <h5 class="card-title">{{ $attraction->name }}</h5>
                 <p class="card-text">{{ Str::limit($attraction->desc, 100) }}</p>
@@ -99,6 +99,8 @@
                     {{ $attraction->has_facility ? 'Ada Fasilitas' : 'Belum Ada Fasilitas' }}
                   </span>
                 </p>
+                <!-- Make the whole card clickable -->
+                <a href="{{ route('objek-wisata.show', $attraction->id) }}" class="stretched-link"></a>
               </div>
             </div>
           </div>
@@ -115,5 +117,8 @@
       </div>
     </div>
   </section>
+
+  @include('partials.footer') {{-- You can modularize footer if reused --}}
+  
 </body>
 </html>

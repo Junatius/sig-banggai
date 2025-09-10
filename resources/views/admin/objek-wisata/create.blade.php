@@ -69,30 +69,51 @@
                            placeholder="Contoh: Resmi / Tidak Resmi" required>
                     @error('legality') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                 </div>
-
-                {{-- Harga Tiket --}}
-                <div>
-                    <label class="block text-base font-semibold text-gray-700 mb-1">Harga Tiket</label>
-                    <input type="number" name="price" value="{{ old('price') }}"
-                           class="w-full ring-1 rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 p-3 text-gray-800"
-                           placeholder="Masukkan harga tiket">
-                    @error('price') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-                </div>
-
+                
                 {{-- Apakah ada fasilitas --}}
                 <div>
                     <label class="block text-base font-semibold text-gray-700 mb-1">Apakah ada fasilitas?</label>
-                    <select name="has_facility"
+                    <select id="has_facility" name="has_facility"
                             class="w-full rounded-lg ring-1 border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 p-3 text-gray-800">
                         <option value="1" {{ old('has_facility') == '1' ? 'selected' : '' }}>Ada</option>
                         <option value="0" {{ old('has_facility') == '0' ? 'selected' : '' }}>Tidak</option>
                     </select>
                     @error('has_facility') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                 </div>
+
+                {{-- Harga Tiket --}}
+                <div>
+                    <label class="block text-base font-semibold text-gray-700 mb-1">Harga Tiket</label>
+                    <input type="number" id="price" name="price" value="{{ old('price') }}"
+                        class="w-full ring-1 rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 p-3 text-gray-800"
+                        placeholder="Masukkan harga tiket">
+                    @error('price') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                </div>
+            </div>
+
+            {{-- Pilih Lokasi di Peta --}}
+            <div class="mt-6">
+                <label class="block text-base font-semibold text-gray-700 mb-1">Lokasi Wisata (Klik pada peta)</label>
+                <div id="map" style="height: 400px; border-radius: 10px;" class="mb-4"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm text-gray-700">Latitude</label>
+                        <input type="text" id="latitude" name="latitude" value="{{ old('latitude') }}"
+                               class="w-full rounded-lg border-gray-300 ring-1 focus:border-blue-500 focus:ring focus:ring-blue-200 p-2 text-gray-800" readonly required>
+                        @error('latitude') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-700">Longitude</label>
+                        <input type="text" id="longitude" name="longitude" value="{{ old('longitude') }}"
+                               class="w-full rounded-lg border-gray-300 ring-1 focus:border-blue-500 focus:ring focus:ring-blue-200 p-2 text-gray-800" readonly required>
+                        @error('longitude') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                </div>
             </div>
 
             {{-- Deskripsi (Full Width) --}}
-            <div>
+            <div class="mt-6">
                 <label class="block text-base font-semibold text-gray-700 mb-1">Deskripsi</label>
                 <textarea name="desc" rows="4"
                           class="w-full rounded-lg ring-1 border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 p-3 text-gray-800"
@@ -114,4 +135,64 @@
         </form>
     </div>
 </div>
+
+{{-- Google Maps Picker --}}
+<script>
+    let map, marker;
+    function initMap() {
+        const banggai = { lat: -1.3841, lng: 123.3186 };
+        map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 9,
+            center: banggai,
+        });
+
+        marker = new google.maps.Marker({
+            position: banggai,
+            map: map,
+            draggable: true,
+        });
+
+        // Set awal
+        document.getElementById("latitude").value = marker.getPosition().lat();
+        document.getElementById("longitude").value = marker.getPosition().lng();
+
+        // Klik di peta → pindah marker
+        map.addListener("click", function(event) {
+            marker.setPosition(event.latLng);
+            updateLatLng(event.latLng);
+        });
+
+        // Drag marker → update input
+        marker.addListener("dragend", function(event) {
+            updateLatLng(event.latLng);
+        });
+    }
+
+    function updateLatLng(latLng) {
+        document.getElementById("latitude").value = latLng.lat();
+        document.getElementById("longitude").value = latLng.lng();
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const hasFacility = document.getElementById("has_facility");
+        const priceInput = document.getElementById("price");
+
+        function togglePrice() {
+            if (hasFacility.value === "0") {
+                priceInput.value = "";
+                priceInput.setAttribute("disabled", "disabled");
+                priceInput.classList.add("bg-gray-100", "cursor-not-allowed");
+            } else {
+                priceInput.removeAttribute("disabled");
+                priceInput.classList.remove("bg-gray-100", "cursor-not-allowed");
+            }
+        }
+
+        togglePrice();
+        hasFacility.addEventListener("change", togglePrice);
+    });
+</script>
 @endsection

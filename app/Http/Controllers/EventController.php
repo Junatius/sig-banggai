@@ -57,7 +57,13 @@ class EventController extends Controller
 
         $attractions = Attraction::orderBy('name')->get();
 
-        return view('frontend.events', compact('events', 'attractions'));
+        return view('events.index', compact('events', 'attractions'));
+    }
+
+    public function show_user(Event $event)
+    {
+        $event->load(['user.attraction']);
+        return view('events.show', compact('event'));
     }
 
     /**
@@ -121,16 +127,34 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'        => 'required|string|max:255',
-            'photo_url'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'start_date'  => 'required|date',
-            'end_date'    => 'required|date|after_or_equal:start_date',
-            'desc'        => 'required|string',
-            'link'        => 'nullable|url',
-            'manager'     => 'required|string',
-            'contact'     => 'required|string',
-        ]);
+    $request->validate([
+        'name'        => 'required|string|max:255',
+        'photo_url'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'start_date'  => 'required|date|after_or_equal:today',
+        'end_date'    => 'required|date|after_or_equal:start_date',
+        'desc'        => 'required|string',
+        'link'        => 'nullable|url',
+        'manager'     => 'required|string',
+        'contact'     => 'required|string',
+    ], [
+        // Pesan error custom (Bahasa Indonesia)
+        'name.required'        => 'Nama event wajib diisi.',
+        'name.max'             => 'Nama event tidak boleh lebih dari 255 karakter.',
+        'photo_url.image'      => 'File foto harus berupa gambar.',
+        'photo_url.mimes'      => 'Foto hanya boleh berformat jpeg, png, atau jpg.',
+        'photo_url.max'        => 'Ukuran foto maksimal 2 MB.',
+        'start_date.required'  => 'Tanggal mulai wajib diisi.',
+        'start_date.date'      => 'Tanggal mulai harus berupa tanggal yang valid.',
+        'start_date.after_or_equal' => 'Tanggal mulai tidak boleh sebelum hari ini.',
+        'end_date.required'    => 'Tanggal selesai wajib diisi.',
+        'end_date.date'        => 'Tanggal selesai harus berupa tanggal yang valid.',
+        'end_date.after_or_equal' => 'Tanggal selesai tidak boleh sebelum tanggal mulai.',
+        'desc.required'        => 'Deskripsi wajib diisi.',
+        'link.url'             => 'Link pendaftaran harus berupa URL yang valid.',
+        'manager.required'     => 'Penanggung jawab wajib diisi.',
+        'contact.required'     => 'Kontak wajib diisi.',
+    ]);
+
 
         $photoPath = null;
         if ($request->hasFile('photo_url')) {

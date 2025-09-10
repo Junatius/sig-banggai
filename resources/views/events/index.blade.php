@@ -68,26 +68,28 @@
       <div class="row" id="eventList">
         @forelse ($events as $event)
           <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-              <img src="{{ $event->photo_url ? asset('storage/'.$event->photo_url) : asset('assets/images/default-event.jpg') }}"
-                   class="card-img-top"
-                   alt="{{ $event->name }}"
-                   style="height:200px; object-fit:cover;">
-              <div class="card-body">
-                <h5 class="card-title">{{ $event->name }}</h5>
-                <p class="card-text mb-1"><small class="text-muted">
-                  <i class="fas fa-calendar-day"></i>
-                  {{ \Carbon\Carbon::parse($event->start_date)->format('d M Y') }} - 
-                  {{ \Carbon\Carbon::parse($event->end_date)->format('d M Y') }}
-                </small></p>
-                <p class="card-text mb-1"><small class="text-muted">
-                  <i class="fas fa-user-tie"></i> {{ $event->manager }}
-                </small></p>
-                <p class="card-text mb-1"><small class="text-muted">
-                  <i class="fas fa-map-marker-alt"></i> {{ $event->user->attraction->name ?? '-' }}
-                </small></p>
+            <a href="{{ route('events.show', $event->id) }}" class="text-decoration-none text-dark">
+              <div class="card h-100 shadow-sm">
+                <img src="{{ $event->photo_url ? asset('storage/'.$event->photo_url) : asset('assets/images/default-event.jpg') }}"
+                     class="card-img-top"
+                     alt="{{ $event->name }}"
+                     style="height:200px; object-fit:cover;">
+                <div class="card-body">
+                  <h5 class="card-title">{{ $event->name }}</h5>
+                  <p class="card-text mb-1"><small class="text-muted">
+                    <i class="fas fa-calendar-day"></i>
+                    {{ \Carbon\Carbon::parse($event->start_date)->format('d M Y') }} - 
+                    {{ \Carbon\Carbon::parse($event->end_date)->format('d M Y') }}
+                  </small></p>
+                  <p class="card-text mb-1"><small class="text-muted">
+                    <i class="fas fa-user-tie"></i> {{ $event->manager }}
+                  </small></p>
+                  <p class="card-text mb-1"><small class="text-muted">
+                    <i class="fas fa-map-marker-alt"></i> {{ $event->user->attraction->name ?? '-' }}
+                  </small></p>
+                </div>
               </div>
-            </div>
+            </a>  
           </div>
         @empty
           <div class="col-12">

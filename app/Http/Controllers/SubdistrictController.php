@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class SubdistrictController extends Controller
 {
+    public function homepage()
+    {
+        $subdistricts = Subdistrict::all(); // or paginate if needed
+        return view('frontend.index', compact('subdistricts'));
+    }
+
     public function index(Request $request)
     {
         $search = $request->input('search');

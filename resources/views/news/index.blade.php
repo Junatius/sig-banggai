@@ -110,9 +110,8 @@
         <button type="submit" class="btn btn-outline-secondary">Filter</button>
 
         @auth
-          @if (auth()->user()->role === 'pengelola_pariwisata' || auth()->user()->role === 'dinas_pariwisata')
-            {{-- <a href="{{ route('news.create') }}" class="btn btn-add ms-auto">+ Tambah Berita</a> --}}
-            <a href="#" class="btn btn-add ms-auto">+ Tambah Berita</a>
+          @if (auth()->user()->role === 'pengelola' || auth()->user()->role === 'dinas_pariwisata')
+            <a href="{{ route('dashboard.news.create') }}" class="btn btn-add ms-auto">+ Tambah Berita</a>
           @endif
         @endauth
       </form>
@@ -122,7 +121,7 @@
       @forelse ($news as $item)
         <div class="col-md-4 d-flex">
           <div class="card shadow-sm flex-fill">
-            <img src="{{ asset('storage/' . $item->photo) }}" class="card-img-top" alt="{{ $item->title }}">
+            <img src="{{ asset('storage/' . $item->photo_url) }}" class="card-img-top" alt="{{ $item->title }}">
             <div class="card-body">
               <h6 class="card-title">{{ $item->title }}</h6>
               <p class="card-text">{{ Str::limit(strip_tags($item->desc), 100, '...') }}</p>
@@ -132,8 +131,7 @@
               <p class="card-text small text-muted mb-2">
                 {{ $item->user->username }} · {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('l, d F Y') }}
               </p>
-              {{-- <a href="{{ route('news.show', $item->id) }}" class="btn btn-sm btn-outline-primary mt-auto">Baca Selengkapnya</a> --}}
-              <a href="#" class="btn btn-sm btn-outline-primary mt-auto">Baca Selengkapnya</a>
+              <a href="{{ route('news.show', $item->id) }}" class="btn btn-sm btn-outline-primary mt-auto">Baca Selengkapnya</a>
             </div>
           </div>
         </div>
@@ -148,6 +146,8 @@
       {{ $news->withQueryString()->links() }}
     </div>
   </section>
+
+  @include('partials.footer') {{-- You can modularize footer if reused --}}
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

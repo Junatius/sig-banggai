@@ -94,255 +94,26 @@
   </section>
 
   <!--Kecamatan di Kabupaten Banggai-->
-  <section id="kecamatan" class="py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">Daftar Kecamatan di Kabupaten Banggai</h2>
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-        <!-- Contoh satu kecamatan -->
+<!-- Kecamatan Section -->
+<section id="kecamatan" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Daftar Kecamatan di Kabupaten Banggai</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      @foreach($subdistricts as $subdistrict)
         <div class="col">
-          <div class="card kecamatan-card text-center p-3 h-100">
-            <h5 class="card-title">Kecamatan Luwuk</h5>
-            <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-            <p class="card-text">Populasi sekitar 45.000 jiwa</p>
+          <div class="card kecamatan-card text-center p-3 h-100 shadow-sm">
+            <h5 class="card-title">{{ $subdistrict->name }}</h5>
+            <p class="text-muted mb-1">Wilayah administratif</p>
+            <p class="card-text">Terdaftar diwebsite sejak <br/> {{ \Carbon\Carbon::parse($subdistrict->created_at)->translatedFormat('d F Y') }}</p>
           </div>
         </div>
-        <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-                <h5 class="card-title">Kecamatan Luwuk</h5>
-                <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-                <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div><div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div><div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card kecamatan-card text-center p-3 h-100">
-              <h5 class="card-title">Kecamatan Luwuk</h5>
-              <p class="text-muted mb-1">Terletak di wilayah tengah</p>
-              <p class="card-text">Populasi sekitar 45.000 jiwa</p>
-            </div>
-          </div>
-        <!-- Duplikat untuk 23 kecamatan lainnya -->
-      </div>
+      @endforeach
     </div>
-  </section>    
-
-  <!-- Konten lainnya -->
-  <div class="container my-5">
-    <section id="mapsSection" class="mt-5">
-      <h2>Peta Wisata</h2>
-      <p>Menampilkan lokasi objek wisata secara interaktif.</p>
-    </section>
-
-    <section id="objekWisataSection" class="mt-5">
-      <h2>Objek Wisata</h2>
-      <p>Daftar lengkap destinasi wisata di Kabupaten Banggai.</p>
-    </section>
-
-    <section id="beritaSection" class="mt-5">
-      <h2>Berita</h2>
-      <p>Berita dan info terkini seputar pariwisata daerah.</p>
-    </section>
-
-    <section id="gallerySection" class="mt-5">
-      <h2>Gallery</h2>
-      <p>Kumpulan foto-foto menarik dari objek wisata.</p>
-    </section>
-
-    <section id="loginSection" class="mt-5">
-      <h2>Login</h2>
-      <form>
-        <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input type="text" class="form-control" id="username" required>
-        </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-      </form>
-    </section>
   </div>
+</section>
 
-  <!-- Footer -->
-  <footer class="custom-footer mt-5">
-    <div class="container py-4">
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <h5>SIG Pariwisata Banggai</h5>
-          <p>Website informasi geografis pariwisata untuk mempromosikan potensi wisata di Kabupaten Banggai.</p>
-        </div>
-        <div class="col-md-4 mb-3">
-          <h5>Menu Navigasi</h5>
-          <ul class="list-unstyled">
-            <li><a href="{{ url('/') }}">Beranda</a></li>
-            <li><a href="#about">Tentang</a></li>
-            <li><a href="#kecamatan">Kecamatan</a></li>
-            <li><a href="#galeri">Galeri</a></li>
-            <li><a href="#kontak">Kontak</a></li>
-          </ul>
-        </div>
-        <div class="col-md-4 mb-3">
-          <h5>Kontak Kami</h5>
-          <p>Email: <a href="mailto:dispar@banggai.go.id">dispar@banggai.go.id</a></p>
-          <p>Telepon: (021) 123-4567</p>
-          <p>Alamat: Jl. Jenderal Sudirman No.10, Luwuk</p>
-          <div class="social-icons mt-3">
-            <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-          </div>
-        </div>
-      </div>
-      <hr style="border-color: rgba(255,255,255,0.1);">
-      <p class="text-center mb-0">&copy; 2025 ThesKind. All rights reserved.</p>
-    </div>
-  </footer>  
-  
+  @include('partials.footer') {{-- You can modularize footer if reused --}}
+
   <!-- Script -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{{ asset('assets/js/script.js') }}"></script>

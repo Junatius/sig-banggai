@@ -51,7 +51,12 @@
                         <tr>
                             <td>{{ $galeries->firstItem() + $index }}</td>
                             <td>
-                                <img src="{{ asset($galery->photo_url) }}" alt="Foto" class="img-thumbnail" style="max-width: 100px; max-height: 80px;">
+                                <a href="{{ asset('storage/' . $galery->photo_url) }}" target="_blank">
+                                    <img src="{{ asset('storage/' . $galery->photo_url) }}" 
+                                        alt="Foto" 
+                                        class="img-thumbnail" 
+                                        style="max-width: 200px; max-height: 150px;">
+                                </a>
                             </td>
                             <td>{{ $galery->attraction->name ?? '-' }}</td>
                             <td>{{ $galery->user->username ?? '-' }}</td>

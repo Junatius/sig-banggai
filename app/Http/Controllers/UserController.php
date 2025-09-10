@@ -43,7 +43,7 @@ class UserController extends Controller
         $request->validate([
             'role'          => 'required|in:dinas_pariwisata,pengelola',
             'name'          => 'required|string|max:255',
-            'attraction_id' => 'required_if:role,pengelola|nullable|exists:attractions,id',
+            'attractions_id' => 'required_if:role,pengelola|nullable|exists:attractions,id',
             'email'         => 'required|email|unique:users,email'
         ]);
 
@@ -56,7 +56,7 @@ class UserController extends Controller
             'email'         => $request->email,
             'password'      => Hash::make($password),
             'role'          => $request->role,
-            'attraction_id' => $request->role === 'pengelola' ? $request->attraction_id : null
+            'attractions_id' => $request->role === 'pengelola' ? $request->attractions_id : null
         ]);
 
         // Simpan password ke session agar bisa ditampilkan di halaman sukses

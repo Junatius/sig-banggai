@@ -40,7 +40,7 @@ class BeritaController extends Controller
         // for dropdown filter
         $attractions = Attraction::select('id', 'name')->get();
 
-        return view('frontend.berita', compact('news', 'attractions'));
+        return view('news.index', compact('news', 'attractions'));
     }
 
     public function index_dashboard(Request $request)
@@ -90,6 +90,13 @@ class BeritaController extends Controller
         return view('admin.berita.index', compact('news', 'attractions'));;
     }
 
+    public function show_user($id)
+    {
+        $news = News::with(['user', 'user.attraction'])->findOrFail($id);
+
+        return view('news.show', compact('news'));
+    }
+    
     public function show($id)
     {
         $news = News::with(['user.attraction'])->findOrFail($id);
@@ -113,13 +120,21 @@ class BeritaController extends Controller
             'title'     => 'required|string|max:50',
             'desc'      => 'required|string',
             'photo_url' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+        ], [
+            'title.required' => 'Judul berita wajib diisi.',
+            'title.max' => 'Judul berita tidak boleh lebih dari 50 karakter.',
+            'desc.required' => 'Deskripsi berita wajib diisi.',
+            'photo_url.required' => 'Foto berita wajib diisi.',
+            'photo_url.image' => 'File harus berupa gambar.',
+            'photo_url.mimes' => 'Foto berita harus berformat: jpeg, png, jpg.',
+            'photo_url.max' => 'Ukuran foto berita tidak boleh lebih dari 2MB.',
         ]);
 
         $data = $request->only(['title', 'desc']);
         $data['users_id'] = Auth::id();
 
         if ($request->hasFile('photo_url')) {
-            $data['photo_url'] = $request->file('photo_url')->store('uploads/news', 'public');
+            $data['photo_url'] = $request->file('photo_url')->store('news', 'public');
         }
 
         News::create($data);
@@ -151,7 +166,15 @@ class BeritaController extends Controller
         $request->validate([
             'title'     => 'required|string|max:50',
             'desc'      => 'required|string',
-            'photo_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'photo_url' => 'rqeuired|image|mimes:jpg,jpeg,png|max:2048'
+        ], [
+            'title.required' => 'Judul berita wajib diisi.',
+            'title.max' => 'Judul berita tidak boleh lebih dari 50 karakter.',
+            'desc.required' => 'Deskripsi berita wajib diisi.',
+            'photo_url.required' => 'Foto berita wajib diisi.',
+            'photo_url.image' => 'File harus berupa gambar.',
+            'photo_url.mimes' => 'Foto berita harus berformat: jpeg, png, jpg.',
+            'photo_url.max' => 'Ukuran foto berita tidak boleh lebih dari 2MB.',
         ]);
 
         $news->title = $request->title;
