@@ -76,7 +76,7 @@
 
         {{-- Link Pendaftaran --}}
         <div>
-            <label class="block text-gray-800 font-medium mb-1">Link Pendaftaran (Opsional)</label>
+            <label class="block text-gray-800 font-medium mb-1">Link Postingan (Opsional)</label>
             <input type="url" name="link" value="{{ old('link') }}"
                 class="border @error('link') border-red-500 @else border-gray-300 @enderror 
                        text-gray-900 rounded-lg px-4 py-2 w-full">

@@ -99,13 +99,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm text-gray-700">Latitude</label>
-                        <input type="text" id="latitude" name="latitude" value="{{ old('latitude') }}"
+                        <input type="text" maxlength="12" pattern="^-?\d{1,3}(\.\d{1,8})?$" id="latitude" name="latitude" value="{{ old('latitude') }}"
                                class="w-full rounded-lg border-gray-300 ring-1 focus:border-blue-500 focus:ring focus:ring-blue-200 p-2 text-gray-800" readonly required>
                         @error('latitude') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                     </div>
                     <div>
                         <label class="block text-sm text-gray-700">Longitude</label>
-                        <input type="text" id="longitude" name="longitude" value="{{ old('longitude') }}"
+                        <input type="text" maxlength="12" pattern="^-?\d{1,3}(\.\d{1,8})?$" id="longitude" name="longitude" value="{{ old('longitude') }}"
                                class="w-full rounded-lg border-gray-300 ring-1 focus:border-blue-500 focus:ring focus:ring-blue-200 p-2 text-gray-800" readonly required>
                         @error('longitude') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                     </div>

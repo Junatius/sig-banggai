@@ -156,6 +156,10 @@ class AttractionController extends Controller
             $validated['photo_profile'] = $request->file('photo_profile')->store('uploads/attractions', 'public');
         }
 
+        $validated['latitude'] = number_format((float) $validated['latitude'], 8, '.', '');
+        $validated['longitude'] = number_format((float) $validated['longitude'], 8, '.', '');
+
+
         Attraction::create($validated);
 
         return redirect()->route('dashboard.attractions.index')
