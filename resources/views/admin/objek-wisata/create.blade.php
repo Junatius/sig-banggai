@@ -174,25 +174,4 @@
     }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const hasFacility = document.getElementById("has_facility");
-        const priceInput = document.getElementById("price");
-
-        function togglePrice() {
-            if (hasFacility.value === "0") {
-                priceInput.value = "";
-                priceInput.setAttribute("disabled", "disabled");
-                priceInput.classList.add("bg-gray-100", "cursor-not-allowed");
-            } else {
-                priceInput.removeAttribute("disabled");
-                priceInput.classList.remove("bg-gray-100", "cursor-not-allowed");
-            }
-        }
-
-        togglePrice();
-        hasFacility.addEventListener("change", togglePrice);
-    });
-</script>
 @endsection

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('longitude')->nullable();
             $table->text('desc');
             $table->boolean('has_facility')->default(false);
-            // $table->enum('type', ['your', 'enum', 'values', 'here']); // Replace with actual types
             $table->string('type');
             $table->string('legality');
             $table->integer('price')->nullable();

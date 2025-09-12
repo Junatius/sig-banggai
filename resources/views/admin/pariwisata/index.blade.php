@@ -45,13 +45,15 @@
 @endsection
 
 {{-- Google Maps --}}
-<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
 <script>
     function initMap() {
         const lat = parseFloat("{{ $attraction->latitude ?? '-1.8694' }}");
         const lng = parseFloat("{{ $attraction->longitude ?? '123.5445' }}");
 
-        const map = new google.maps.Map(document.getElementById("map"), {
+        const mapElement = document.getElementById("map");
+        if (!mapElement) return; // safety check
+
+        const map = new google.maps.Map(mapElement, {
             center: { lat: lat, lng: lng },
             zoom: 14
         });
@@ -73,4 +75,12 @@
             infoWindow.open(map, marker);
         });
     }
+
+    // Make sure Google callback waits for DOM
+    window.addEventListener("load", () => {
+        if (typeof google !== "undefined" && google.maps) {
+            initMap();
+        }
+    });
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}" async defer></script>
