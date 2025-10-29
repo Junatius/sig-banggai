@@ -264,13 +264,18 @@ class AttractionController extends Controller
         $attraction = Attraction::findOrFail($user->attractions_id);
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255', // still required for validation completeness
             'desc' => 'nullable|string',
             'legality' => 'nullable|string|max:255',
             'price' => 'nullable|string|max:50',
             'has_facility' => 'boolean',
             'photo_profile' => 'nullable|image|max:2048',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ]);
+
+        // Ignore name updates for pengelola
+        unset($validated['name']);
 
         // Upload foto jika ada
         if ($request->hasFile('photo_profile')) {

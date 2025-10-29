@@ -46,6 +46,26 @@ class WisataController extends Controller
         return redirect()->route('galleries')->with('success', 'Foto berhasil diunggah dan menunggu persetujuan.');
     }
 
+    public function destroy($id)
+{
+    $gallery = Galery::findOrFail($id);
+
+    // Check if the logged-in user is the uploader
+    if ($gallery->users_id !== auth()->id()) {
+        abort(403, 'Anda tidak memiliki izin untuk menghapus foto ini.');
+    }
+
+    // Delete image file from storage
+    if ($gallery->photo_url && Storage::disk('public')->exists($gallery->photo_url)) {
+        Storage::disk('public')->delete($gallery->photo_url);
+    }
+
+    // Delete database record
+    $gallery->delete();
+
+    return redirect()->route('galleries')->with('success', 'Foto berhasil dihapus.');
+}
+
     public function index_dashboard(Request $request)
     {
         $search = $request->get('search');

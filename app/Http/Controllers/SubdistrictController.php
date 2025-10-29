@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attraction;
+use App\Models\News;
 use App\Models\Subdistrict;
 use Illuminate\Http\Request;
 
@@ -9,8 +11,9 @@ class SubdistrictController extends Controller
 {
     public function homepage()
     {
-        $subdistricts = Subdistrict::all(); // or paginate if needed
-        return view('frontend.index', compact('subdistricts'));
+        $attractions = Attraction::latest()->take(5)->get();
+        $news = News::with('user')->latest()->take(5)->get();
+        return view('frontend.index', compact('attractions', 'news'));
     }
 
     public function index(Request $request)

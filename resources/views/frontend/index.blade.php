@@ -13,12 +13,24 @@
   @include('partials.navbar') {{-- You can modularize navbar if reused --}}
 
   <!-- Header Section with background image -->
-  <header class="hero-header d-flex align-items-center" id="homeSection">
-    <div class="container text-white text-center">
-      <h1>Selamat datang di SIG Pariwisata Kabupaten Banggai</h1>
-      <p>Informasi lengkap tentang objek wisata daerah Banggai.</p>
+  <header
+    id="homeSection"
+    class="hero-header relative flex items-center justify-center text-center text-white min-h-screen bg-cover bg-center"
+    style="background-image: url('{{ asset('assets/images/hero_background.jpg') }}');"
+  >
+    <!-- Optional overlay -->
+    <div class="absolute inset-0 bg-black/50"></div>
+
+    <div class="relative z-10 container mx-auto px-4">
+        <h1 class="text-3xl md:text-5xl font-bold mb-4">
+            Selamat datang di SIG Pariwisata Kabupaten Banggai
+        </h1>
+        <p class="text-lg md:text-xl">
+            Informasi lengkap tentang objek wisata daerah Banggai.
+        </p>
     </div>
   </header>
+
 
   <!-- About Section -->
   <section id="aboutSection" class="container my-5">
@@ -93,24 +105,76 @@
     </div>
   </section>
 
-  <!--Kecamatan di Kabupaten Banggai-->
-<!-- Kecamatan Section -->
-<section id="kecamatan" class="py-5">
-  <div class="container">
-    <h2 class="text-center mb-4">Daftar Kecamatan di Kabupaten Banggai</h2>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-      @foreach($subdistricts as $subdistrict)
+  <!-- ======= Section 1: Objek Wisata ======= -->
+  <section id="attractionsSection" class="container my-5">
+    <div class="text-center mb-5">
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">Objek Wisata Populer</h2>
+      <p class="text-gray-600">Temukan keindahan wisata unggulan di Kabupaten Banggai</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+      @foreach ($attractions->take(5) as $attraction)
         <div class="col">
-          <div class="card kecamatan-card text-center p-3 h-100 shadow-sm">
-            <h5 class="card-title">{{ $subdistrict->name }}</h5>
-            <p class="text-muted mb-1">Wilayah administratif</p>
-            <p class="card-text">Terdaftar diwebsite sejak <br/> {{ \Carbon\Carbon::parse($subdistrict->created_at)->translatedFormat('d F Y') }}</p>
+          <div class="card h-100 shadow hover:shadow-lg transition rounded-lg overflow-hidden">
+            <a href="{{ url('/objek-wisata/' . $attraction->id) }}" class="text-decoration-none text-dark">
+              <img src="{{ asset('storage/' . $attraction->photo_profile) }}" 
+                   class="card-img-top object-cover h-48 w-100" 
+                   alt="{{ $attraction->name }}">
+              <div class="card-body text-center">
+                <h5 class="card-title font-semibold mb-2">{{ $attraction->name }}</h5>
+                <p class="card-text text-sm text-gray-600">
+                  {{ $attraction->price ? 'Rp ' . number_format($attraction->price, 0, ',', '.') : 'Gratis' }}
+                </p>
+              </div>
+            </a>
           </div>
         </div>
       @endforeach
     </div>
-  </div>
-</section>
+
+    <div class="text-center mt-5">
+      <a href="{{ url('/objek-wisata') }}" class="btn btn-outline-primary px-4 py-2 rounded">
+        Lihat Selengkapnya
+      </a>
+    </div>
+  </section>
+
+  <!-- ======= Section 2: Berita Terbaru ======= -->
+  <section id="newsSection" class="container my-5">
+    <div class="text-center mb-5">
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">Berita Terbaru</h2>
+      <p class="text-gray-600">Update informasi terbaru seputar pariwisata Banggai</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+      @foreach ($news->take(5) as $item)
+        <div class="col">
+          <div class="card h-100 shadow hover:shadow-lg transition rounded-lg overflow-hidden">
+            <a href="{{ url('/berita/' . $item->id) }}" class="text-decoration-none text-dark">
+              <img src="{{ asset('storage/' . $item->photo_url) }}" 
+                   class="card-img-top object-cover h-48 w-100" 
+                   alt="{{ $item->title }}">
+              <div class="card-body">
+                <h5 class="card-title font-semibold mb-2">{{ Str::limit($item->title, 40) }}</h5>
+                <p class="text-sm text-gray-600 mb-1">
+                  {{ $item->user->username ?? 'Admin' }}
+                </p>
+                <p class="text-xs text-muted">
+                  {{ $item->created_at->diffForHumans() }}
+                </p>
+              </div>
+            </a>
+          </div>
+        </div>
+      @endforeach
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="{{ url('/berita') }}" class="btn btn-outline-primary px-4 py-2 rounded">
+        Lihat Selengkapnya
+      </a>
+    </div>
+  </section>
 
   @include('partials.footer') {{-- You can modularize footer if reused --}}
 

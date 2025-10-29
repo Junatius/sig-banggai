@@ -33,6 +33,9 @@ Route::get('/berita', [BeritaController::class, 'index'])->name('news.index');
 Route::get('/berita/{id}', [BeritaController::class, 'show_user'])->name('news.show');
 
 Route::get('/gallery', [WisataController::class, 'index'])->name('galleries');
+Route::delete('/gallery/{id}', [WisataController::class, 'destroy'])
+    ->name('gallery.destroy')
+    ->middleware('auth');
 Route::get('/kegiatan', [EventController::class, 'index'])->name('events.index');
 Route::get('/kegiatan/{event}', [EventController::class, 'show_user'])->name('events.show');
 Route::get('/maps', [AttractionController::class, 'maps'])->name('maps');

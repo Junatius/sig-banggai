@@ -12,9 +12,15 @@
             {{-- Nama --}}
             <div>
                 <label class="block text-sm font-semibold text-gray-800 mb-1">Nama</label>
-                <input type="text" name="name" value="{{ old('name', $attraction->name) }}"
-                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                <input type="text"
+                    name="name"
+                    value="{{ old('name', $attraction->name) }}"
+                    disabled
+                    title="Hanya dinas pariwisata yang bisa mengubah ini. Hubungi mereka jika ingin mengubah nama tempat wisatamu."
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed"
+                    required>
             </div>
+
 
             {{-- Deskripsi --}}
             <div>

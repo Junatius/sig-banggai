@@ -109,13 +109,53 @@
     <div class="row g-4">
       @forelse ($galeries as $gallery)
         <div class="col-6 col-md-4 col-lg-2-4 d-flex">
-          <div class="card shadow-sm flex-fill">
+          <div class="card shadow-sm flex-fill position-relative">
+
+            {{-- Delete button (only visible to owner) --}}
+            @auth
+              @if ($gallery->users_id === auth()->id())
+                <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#deleteModal{{ $gallery->id }}">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              @endif
+            @endauth
+
             <img src="{{ asset('storage/' . $gallery->photo_url) }}" alt="{{ $gallery->attraction->name }}">
             <div class="card-body text-center">
               <p class="mb-0 fw-bold">{{ $gallery->attraction->name }}</p>
             </div>
           </div>
         </div>
+
+        {{-- Delete confirmation modal --}}
+        @auth
+          @if ($gallery->users_id === auth()->id())
+            <div class="modal fade" id="deleteModal{{ $gallery->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $gallery->id }}" aria-hidden="true">
+              <div class="modal-dialog">
+                <form method="POST" action="{{ route('gallery.destroy', $gallery->id) }}">
+                  @csrf
+                  @method('DELETE')
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="deleteModalLabel{{ $gallery->id }}">Konfirmasi Hapus Foto</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    </div>
+                    <div class="modal-body">
+                      Apakah Anda yakin ingin menghapus foto ini dari tempat wisata 
+                      <strong>{{ $gallery->attraction->name }}</strong>?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                      <button type="submit" class="btn btn-danger">Ya, Hapus</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          @endif
+        @endauth
       @empty
         <div class="col-12 text-center">
           <p class="text-muted">Tidak ada foto ditemukan.</p>
