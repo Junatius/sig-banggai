@@ -58,17 +58,18 @@
         </div>
       </div>
 
-      {{-- Google Maps --}}
+      {{-- Google 3D Maps --}}
       @if($attraction->latitude && $attraction->longitude)
         <div class="card shadow-sm">
           <div class="card-header bg-primary text-white fw-semibold">
-            Lokasi pada Peta
+            Lokasi pada Peta (3D)
           </div>
           <div class="card-body">
-            <div id="map"></div>
+            <div id="map3d-container" style="width: 100%; height: 500px; border-radius: 12px; overflow: hidden;"></div>
           </div>
         </div>
       @endif
+
 
     </div>
   </section>
@@ -76,41 +77,83 @@
   @include('partials.footer')
 
   {{-- Google Maps --}}
-  @if($attraction->latitude && $attraction->longitude)
-    <script>
-      window.initMap = function() {
-        const location = {
+  {{-- Google 3D Maps --}}
+@if($attraction->latitude && $attraction->longitude)
+  <script>
+    async function init3DMap() {
+      const { Map3DElement, Marker3DInteractiveElement, PopoverElement } = await google.maps.importLibrary("maps3d");
+      const { PinElement } = await google.maps.importLibrary("marker");
+
+      // --- Map setup ---
+      const map = new Map3DElement({
+        center: { 
           lat: parseFloat("{{ $attraction->latitude }}"),
-          lng: parseFloat("{{ $attraction->longitude }}")
-        };
+          lng: parseFloat("{{ $attraction->longitude }}"),
+          altitude: 500
+        },
+        range: 3000,
+        tilt: 70,
+        heading: 45,
+        mode: "HYBRID",
+        gestureHandling: "COOPERATIVE"
+      });
 
-        const map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 14,
-          center: location,
-        });
+      // --- Create pin and popover ---
+      const pin = new PinElement({
+        glyphText: "★",
+        scale: 1.5,
+        background: "#0d6efd",
+        borderColor: "#fff",
+        glyphColor: "#fff"
+      });
 
-        const marker = new google.maps.Marker({
-          position: location,
-          map: map,
-          title: "{{ $attraction->name }}"
-        });
+      const popover = new PopoverElement();
+      const header = document.createElement("span");
+      header.slot = "header";
+      header.textContent = "{{ $attraction->name }}";
 
-        const infoWindow = new google.maps.InfoWindow({
-          content: `
-            <div>
-              <h6 class="fw-bold mb-1">{{ $attraction->name }}</h6>
-              <p>{{ Str::limit($attraction->desc, 100) }}</p>
-            </div>
-          `
-        });
+      const body = document.createElement("div");
+      body.innerHTML = `
+        <div style="max-width:240px">
+          <img src="{{ $attraction->photo_profile ? asset('storage/' . $attraction->photo_profile) : asset('assets/images/default.jpg') }}"
+               style="width:100%;border-radius:8px;margin-bottom:8px;">
+          <p>{{ Str::limit($attraction->desc, 100) }}</p>
+        </div>
+      `;
 
-        marker.addListener("click", () => {
-          infoWindow.open(map, marker);
-        });
-      }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
-  @endif
+      popover.append(header);
+      popover.append(body);
+
+      // --- Marker setup ---
+      const marker = new Marker3DInteractiveElement({
+        title: "{{ $attraction->name }}",
+        position: { 
+          lat: parseFloat("{{ $attraction->latitude }}"),
+          lng: parseFloat("{{ $attraction->longitude }}"),
+          altitude: 100
+        },
+        gmpPopoverTargetElement: popover
+      });
+
+      marker.append(pin);
+      map.append(marker);
+      map.append(popover);
+
+      // --- Attach map to container ---
+      const container = document.getElementById("map3d-container");
+      container.innerHTML = "";
+      map.style.width = "100%";
+      map.style.height = "500px";
+      map.style.borderRadius = "12px";
+      container.append(map);
+    }
+  </script>
+
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&v=beta&libraries=maps3d,marker"
+    onload="init3DMap()">
+  </script>
+@endif
 
 </body>
 </html>

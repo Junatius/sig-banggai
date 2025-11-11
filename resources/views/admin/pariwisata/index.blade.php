@@ -28,10 +28,10 @@
             @endif
         </p>
 
-        {{-- Google Maps --}}
+        {{-- 3D Google Maps --}}
         <div class="mt-6">
-            <label class="block text-sm font-semibold text-gray-800 mb-2">Lokasi pada Peta:</label>
-            <div id="map" class="w-full h-72 rounded-lg border"></div>
+            <label class="block text-sm font-semibold text-gray-800 mb-2">Lokasi pada Peta (3D):</label>
+            <div id="map-container" class="w-full h-80 rounded-lg border overflow-hidden relative"></div>
         </div>
 
         <div class="mt-6">
@@ -44,43 +44,68 @@
 </div>
 @endsection
 
-{{-- Google Maps --}}
-<script>
-    function initMap() {
-        const lat = parseFloat("{{ $attraction->latitude ?? '-1.8694' }}");
-        const lng = parseFloat("{{ $attraction->longitude ?? '123.5445' }}");
-
-        const mapElement = document.getElementById("map");
-        if (!mapElement) return; // safety check
-
-        const map = new google.maps.Map(mapElement, {
-            center: { lat: lat, lng: lng },
-            zoom: 14
-        });
-
-        const marker = new google.maps.Marker({
-            position: { lat: lat, lng: lng },
-            map: map,
-            title: "{{ $attraction->name }}"
-        });
-
-        const infoWindow = new google.maps.InfoWindow({
-            content: `<div>
-                        <h3 class="font-bold text-lg mb-1">{{ $attraction->name }}</h3>
-                        <p>{{ $attraction->desc }}</p>
-                      </div>`
-        });
-
-        marker.addListener("click", () => {
-            infoWindow.open(map, marker);
-        });
-    }
-
-    // Make sure Google callback waits for DOM
-    window.addEventListener("load", () => {
-        if (typeof google !== "undefined" && google.maps) {
-            initMap();
-        }
-    });
+{{-- 3D Google Maps Script --}}
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&v=beta&libraries=maps3d,marker"
+    onload="init3DMap()">
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}" async defer></script>
+
+<script>
+async function init3DMap() {
+    const lat = parseFloat("{{ $attraction->latitude ?? '-1.8694' }}");
+    const lng = parseFloat("{{ $attraction->longitude ?? '123.5445' }}");
+    const name = @json($attraction->name);
+    const desc = @json($attraction->desc);
+    const photo = @json($attraction->photo_profile ? asset('storage/'.$attraction->photo_profile) : null);
+
+    const { Map3DElement, Marker3DInteractiveElement, PopoverElement } =
+        await google.maps.importLibrary("maps3d");
+    const { PinElement } = await google.maps.importLibrary("marker");
+
+    const mapContainer = document.getElementById("map-container");
+
+    // Initialize 3D map
+    const map = new Map3DElement({
+        center: { lat: lat, lng: lng, altitude: 100 },
+        range: 3000,
+        tilt: 65,
+        heading: 20,
+        mode: "HYBRID",
+        gestureHandling: "COOPERATIVE"
+    });
+    mapContainer.append(map);
+
+    // Marker Pin
+    const pin = new PinElement({
+        scale: 1.5,
+        background: "#2563eb", // Tailwind blue-600
+        glyphColor: "#fff",
+    });
+
+    // Popover for info
+    const popover = new PopoverElement();
+    const header = document.createElement("span");
+    header.slot = "header";
+    header.textContent = name;
+
+    const content = document.createElement("div");
+    content.innerHTML = `
+        ${photo ? `<img src="${photo}" style="width:100%;border-radius:8px;margin-bottom:8px;">` : ""}
+        <p>${desc}</p>
+    `;
+
+    popover.append(header);
+    popover.append(content);
+
+    // Interactive marker
+    const marker = new Marker3DInteractiveElement({
+        title: name,
+        position: { lat: lat, lng: lng },
+        gmpPopoverTargetElement: popover,
+    });
+    marker.append(pin);
+
+    map.append(marker);
+    map.append(popover);
+}
+</script>
